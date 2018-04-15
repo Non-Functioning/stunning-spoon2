@@ -4,8 +4,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.List;
 
+import cs3500.animator.model.Position2D;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.provider.hw5.shapes.Position2D;
 
 /**
  * This is an interface that represents different kinds of view for the Easy Animation.

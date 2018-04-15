@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import cs3500.animator.model.Position2D;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.provider.hw5.shapes.Position2D;
 
 /**
  * An abstract implementation for the IAnimatorView interface that implements common methods

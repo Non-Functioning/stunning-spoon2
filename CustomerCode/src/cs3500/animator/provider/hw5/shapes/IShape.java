@@ -2,6 +2,7 @@ package cs3500.animator.provider.hw5.shapes;
 
 import java.util.List;
 
+import cs3500.animator.model.Position2D;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
@@ -20,7 +21,7 @@ public interface IShape {
    *
    * @param rgb The given RGB values.
    */
-  void setRGB(RGB rgb);
+  void setRGB(cs3500.hw5.shapes.InterfaceRGB rgb);
 
   /**
    * Set the X and Y position of the 2D shape.
@@ -68,7 +69,7 @@ public interface IShape {
    *
    * @return the RGB values.
    */
-  RGB getRGB();
+  cs3500.hw5.shapes.InterfaceRGB getRGB();
 
   /**
    * Get the XY Position of this shape.
