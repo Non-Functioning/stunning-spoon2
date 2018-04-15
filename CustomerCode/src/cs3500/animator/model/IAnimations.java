@@ -2,6 +2,8 @@ package cs3500.animator.model;
 
 import java.util.List;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 /**
  * This is the interface for the Animations class.
  * This holds all the methods that can be used to read and modify
@@ -13,25 +15,25 @@ public interface IAnimations {
 
   Integer getTime2();
 
-  Animations.AnimateTypes getType();
+  AnimateTypes getType();
 
-  AnimatedShape getChangedShape();
+  IAnimatedShape getChangedShape();
 
-  Position2D getPosition1();
+  IPosition2D getPosition1();
 
-  Position2D getPosition2();
+  IPosition2D getPosition2();
 
-  RGB getColor1();
+  IRGB getColor1();
 
-  RGB getColor2();
+  IRGB getColor2();
 
   List<Double> getSizeParams1();
 
   List<Double> getSizeParams2();
 
-  void setPosition1(Position2D position1);
+  void setPosition1(IPosition2D position1);
 
-  void setColor1(RGB color1);
+  void setColor1(IRGB color1);
 
   void setSizeParams1(List<Double> sizeParams1);
 }

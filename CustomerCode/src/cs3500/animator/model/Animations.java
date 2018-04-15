@@ -2,27 +2,22 @@ package cs3500.animator.model;
 
 import java.util.List;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 /**
  * Class for containing all animation types and their corresponding info.
  */
 public class Animations implements IAnimations {
-  protected AnimatedShape changedShape;
+  protected IAnimatedShape changedShape;
   public AnimateTypes type;
   protected Integer time1;
   protected Integer time2;
-  protected RGB color1;
-  protected RGB color2;
+  protected IRGB color1;
+  protected IRGB color2;
   protected List<Double> sizeParams1;
   protected List<Double> sizeParams2;
-  protected Position2D position1;
-  protected Position2D position2;
-
-  /**
-   * Type for possible animations performed on shapes.
-   */
-  public enum AnimateTypes {
-    MOVE, CHANGECOLOR, CHANGESIZE, APPEAR, DISAPPEAR, STILL
-  }
+  protected IPosition2D position1;
+  protected IPosition2D position2;
 
   @Override
   public Integer getTime1() {
@@ -40,27 +35,27 @@ public class Animations implements IAnimations {
   }
 
   @Override
-  public AnimatedShape getChangedShape() {
+  public IAnimatedShape getChangedShape() {
     return changedShape;
   }
 
   @Override
-  public Position2D getPosition1() {
+  public IPosition2D getPosition1() {
     return position1;
   }
 
   @Override
-  public Position2D getPosition2() {
+  public IPosition2D getPosition2() {
     return position2;
   }
 
   @Override
-  public RGB getColor1() {
+  public IRGB getColor1() {
     return color1;
   }
 
   @Override
-  public RGB getColor2() {
+  public IRGB getColor2() {
     return color2;
   }
 
@@ -75,12 +70,12 @@ public class Animations implements IAnimations {
   }
 
   @Override
-  public void setPosition1(Position2D position1) {
+  public void setPosition1(IPosition2D position1) {
     this.position1 = position1;
   }
 
   @Override
-  public void setColor1(RGB color1) {
+  public void setColor1(IRGB color1) {
     this.color1 = color1;
   }
 

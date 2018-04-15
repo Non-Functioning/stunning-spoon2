@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,9 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import cs3500.animator.controller.IController;
-import cs3500.animator.model.Animations;
-import cs3500.animator.model.SimpleAnimation;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimationModel;
+import cs3500.animator.model.enums.AnimateTypes;
 
 /**
  * This class represents the interactive view where a user can choose to
@@ -42,9 +41,6 @@ public class InteractiveView extends AbstractVisualView {
   private JButton svgSubset;
   private JButton svgAnim;
 
-  protected List<List<Animations>> subsetTimeline;
-  private SimpleAnimationModel subsetModel;
-
   /**
    * Constructor for an InteractiveView. It creates panels, buttons, and labels
    * and adds them to the frame.
@@ -54,9 +50,6 @@ public class InteractiveView extends AbstractVisualView {
    */
   public InteractiveView(SimpleAnimationModel animationModel, double tempo) {
     super(animationModel, tempo);
-
-    subsetTimeline = new ArrayList<>();
-    subsetModel = new SimpleAnimation();
 
     JPanel mainButtonPanel = new JPanel();
     mainButtonPanel.setLayout(new FlowLayout());
@@ -206,12 +199,12 @@ public class InteractiveView extends AbstractVisualView {
   public void pauseAnimation() {
     TimerTask task;
     final int FINAL_TICK = currTick;
-    List<Animations> animationTime = timeline.get(FINAL_TICK);
+    List<IAnimations> animationTime = timeline.get(FINAL_TICK);
     task = new TimerTask() {
       @Override
       public void run() {
         initializeParams();
-        addShapeParamsAtTimeT(animationTime, FINAL_TICK);
+        addShapeParamsAtTimeT(animationTime, FINAL_TICK, timeline);
         mainPanel.repaint();
       }
     };
@@ -231,16 +224,19 @@ public class InteractiveView extends AbstractVisualView {
    * This method is only used by the Interactive view. It adds a shape chosen by the user
    * to the new subset model.
    *
-   * @param item   added shape's name
+   * @param item         action by user that includes shape
+   * @param subsetModel  subset model
    */
   @Override
-  public void addToSubset(String item) {
+  public void addToSubset(String item, SimpleAnimationModel subsetModel) {
     String shapeName = item.split(" ")[1];
     if (subsetModel.getShapeByName(shapeName) == null) {
       subsetModel.copyShape(model.getShapeByName(shapeName));
       dropdownDisplay.setText("Added to Subset: " + shapeName);
       for (int i = 0; i < animations.size(); i++) {
-        if (animations.get(i).getChangedShape().getShapeName().equals(shapeName)) {
+        if (animations.get(i).getChangedShape().getShapeName().equals(shapeName)
+                && (animations.get(i).getType() != AnimateTypes.APPEAR)
+                && (animations.get(i).getType() != AnimateTypes.DISAPPEAR)) {
           subsetModel.copyAnimation(animations.get(i));
         }
       }
@@ -255,15 +251,16 @@ public class InteractiveView extends AbstractVisualView {
    * from the given starting tick in the current window.
    *
    * @param subsetStart starting tick
+   * @param subsetModel subset model
    */
   @Override
-  public void playSubset(int subsetStart) {
-    subsetTimeline = subsetModel.getTimeline();
+  public void playSubset(int subsetStart, SimpleAnimationModel subsetModel) {
+    List<List<IAnimations>> subsetTimeline = subsetModel.getTimeline();
     timer.cancel();
     timer = new Timer();
     TimerTask task;
 
-    for (int i = 0; i < 101; i++) {
+    for (int i = 0; i < subsetTimeline.size(); i++) {
       final int FINALI = i;
       task = new TimerTask() {
         @Override
@@ -282,18 +279,21 @@ public class InteractiveView extends AbstractVisualView {
    * specified location.
    *
    * @param fileName The file name to save the SVG file as.
+   * @param subsetModel   subset model
    */
   @Override
-  public void svgSubset(String fileName) {
+  public void svgSubset(String fileName, SimpleAnimationModel subsetModel) {
     ViewInterface vi = new SVGView(subsetModel, this.tempo, fileName);
   }
 
   /**
    * This method opens a dialog box that displays the list of shapes currently
    * in the subset. It also includes a description of how to remove shapes.
+   *
+   * @param subsetModel   subset model
    */
   @Override
-  public void showSubsetList() {
+  public void showSubsetList(SimpleAnimationModel subsetModel) {
     StringBuilder subsetShapes = new StringBuilder("Shapes currently in the subset: \n");
 
     for (int i = 0; i < subsetModel.getShapes().size(); i++) {
@@ -308,7 +308,8 @@ public class InteractiveView extends AbstractVisualView {
 
   /**
    * This method opens a dialog box with the specified text.
-   * @param dialog  dialop string
+   *
+   * @param dialog  dialog string
    */
   @Override
   public void createMessageDialog(String dialog) {

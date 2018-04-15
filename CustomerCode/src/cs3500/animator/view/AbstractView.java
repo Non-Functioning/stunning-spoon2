@@ -1,7 +1,7 @@
 package cs3500.animator.view;
 
-import cs3500.animator.model.AnimatedShape;
-import cs3500.animator.model.Animations;
+import cs3500.animator.model.IAnimatedShape;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimationModel;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
  */
 public abstract class AbstractView implements ViewInterface {
   protected SimpleAnimationModel model;
-  protected List<AnimatedShape> shapes;
-  protected List<Animations> animations;
-  protected List<List<Animations>> timeline;
+  protected List<IAnimatedShape> shapes;
+  protected List<IAnimations> animations;
+  protected List<List<IAnimations>> timeline;
   protected double tempo;
   protected boolean isLooped;
 

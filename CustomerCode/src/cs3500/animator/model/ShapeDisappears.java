@@ -1,5 +1,7 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 public class ShapeDisappears extends Animations {
   /**
    * Constructor for ShapeDisappears Animation. Takes in parameters that
@@ -7,7 +9,7 @@ public class ShapeDisappears extends Animations {
    * @param shape   affected shape
    * @param time1   time of disappearance
    */
-  public ShapeDisappears(AnimatedShape shape, Integer time1) {
+  public ShapeDisappears(IAnimatedShape shape, Integer time1) {
     this.type = AnimateTypes.DISAPPEAR;
     this.changedShape = shape;
     this.position1 = shape.getInitialPosition();

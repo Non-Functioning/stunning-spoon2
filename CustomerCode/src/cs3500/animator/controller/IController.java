@@ -11,8 +11,8 @@ public interface IController {
   /**
    * This is the action class that reads the user's input or actions with the
    * interactive view. Depending on the action, it calls upon the view to respond
-   * accordingly to the action. Some actions included are play/pause, restart, and
-   * increase/decrease tempo.
+   * accordingly to the action. Some actions included are play/pause, restart,
+   * increase/decrease tempo, and creating a subset.
    * @param e   user's action
    */
   void action(ActionEvent e);

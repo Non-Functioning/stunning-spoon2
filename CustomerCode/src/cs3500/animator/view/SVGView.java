@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import cs3500.animator.controller.IController;
-import cs3500.animator.model.AnimatedShape;
-import cs3500.animator.model.Animations;
+import cs3500.animator.model.IAnimatedShape;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimationModel;
 
 /**
@@ -73,7 +73,7 @@ public class SVGView extends AbstractView {
    * @param ani The animation of a shape to parse.
    * @return The string that represents a single animation that belongs to a shape.
    */
-  private String animate(Animations ani) {
+  private String animate(IAnimations ani) {
     switch (ani.getType()) {
       case MOVE:
         return "<animateMotion path=\"M " + (ani.getPosition1().getX()
@@ -118,7 +118,7 @@ public class SVGView extends AbstractView {
    * @param shape The shape to be described in the SVG commands.
    * @return A string that contains the definition and all animations of a single shape.
    */
-  private String shapeCommand(AnimatedShape shape) {
+  private String shapeCommand(IAnimatedShape shape) {
     String animateCommands = "";
     for (int i = 0; i < animations.size(); i++) {
       if (animations.get(i).getChangedShape().getShapeName().equals(shape.getShapeName())
@@ -171,8 +171,8 @@ public class SVGView extends AbstractView {
    * @param ani The animation object that contains the details of changing a shape's size.
    * @return The string that describes the size change of a shape in SVG format.
    */
-  private String changeSize(Animations ani) {
-    AnimatedShape shape = ani.getChangedShape();
+  private String changeSize(IAnimations ani) {
+    IAnimatedShape shape = ani.getChangedShape();
     switch (shape.getShapeType()) {
       case RECTANGLE:
         return "<animate attributeName=\"width\" attributeType=\"XML\" begin=\""
@@ -305,18 +305,20 @@ public class SVGView extends AbstractView {
    * This method is only used by the Interactive view. It adds a shape chosen by the user
    * to the new subset model.
    * @param shapeName    action by user that includes shape
+   * @param subsetModel  subset model
    */
   @Override
-  public void addToSubset(String shapeName) {
+  public void addToSubset(String shapeName, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
   /**
    * This method opens a dialog box that displays the list of shapes currently
    * in the subset. It also includes a description of how to remove shapes.
+   * @param subsetModel subset model
    */
   @Override
-  public void showSubsetList() {
+  public void showSubsetList(SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
@@ -324,9 +326,10 @@ public class SVGView extends AbstractView {
    * This method is only used by the Interactive view. It plays the subset animation
    * from the given starting tick in the current window.
    * @param subsetStart starting tick
+   * @param subsetModel subset model
    */
   @Override
-  public void playSubset(int subsetStart) {
+  public void playSubset(int subsetStart, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
@@ -335,9 +338,10 @@ public class SVGView extends AbstractView {
    * specified location.
    *
    * @param fileName The file name to save the SVG file as.
+   * @param subsetModel subset model
    */
   @Override
-  public void svgSubset(String fileName) {
+  public void svgSubset(String fileName, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 

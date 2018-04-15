@@ -1,5 +1,7 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 public class ShapeAppears extends Animations {
   /**
    * Constructor for ShapeAppears Animation. Takes in parameters that
@@ -10,7 +12,7 @@ public class ShapeAppears extends Animations {
    * @param shape   affected shape
    * @param time1   time of appearance
    */
-  public ShapeAppears(AnimatedShape shape, Integer time1, Integer time2) {
+  public ShapeAppears(IAnimatedShape shape, Integer time1) {
     this.type = AnimateTypes.APPEAR;
     this.changedShape = shape;
     this.position1 = shape.getInitialPosition();

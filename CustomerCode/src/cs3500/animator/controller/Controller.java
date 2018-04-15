@@ -5,16 +5,19 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 
+import cs3500.animator.model.SimpleAnimation;
 import cs3500.animator.model.SimpleAnimationModel;
 import cs3500.animator.view.ViewInterface;
 
 /**
  * This class represents the controller for the SimpleAnimation model and view.
  * This controller is interacts with the interactive view to communicate
- * the user's input so that the view can respond accordingly.
+ * the user's input so that the view can respond accordingly. This controller
+ * class also holds the subset model.
  */
 public class Controller implements IController {
   private SimpleAnimationModel model;
+  private SimpleAnimationModel subsetModel;
   private ViewInterface view;
   String out;
 
@@ -26,6 +29,7 @@ public class Controller implements IController {
   public Controller(SimpleAnimationModel m, ViewInterface v) {
     model = m;
     view = v;
+    subsetModel = new SimpleAnimation();
     view.setListener(this);
   }
 
@@ -40,14 +44,15 @@ public class Controller implements IController {
     model = m;
     view = v;
     this.out = out;
+    subsetModel = new SimpleAnimation();
     view.setListener(this);
   }
 
   /**
    * This is the action class that reads the user's input or actions with the
    * interactive view. Depending on the action, it calls upon the view to respond
-   * accordingly to the action. Some actions included are play/pause, restart, and
-   * increase/decrease tempo.
+   * accordingly to the action. Some actions included are play/pause, restart,
+   * increase/decrease tempo, and creating a subset.
    * @param e   user's action
    */
   @Override
@@ -80,21 +85,21 @@ public class Controller implements IController {
         if (e.getSource() instanceof JComboBox) {
           JComboBox<String> box = (JComboBox<String>) e.getSource();
           String item = (String) box.getSelectedItem();
-          view.addToSubset(item);
+          view.addToSubset(item, subsetModel);
         }
         break;
       case "view subset":
-        view.showSubsetList();
+        view.showSubsetList(subsetModel);
         break;
       case "play subset":
-        view.playSubset(0);
+        view.playSubset(0, subsetModel);
         break;
       case "SVG subset":
         if (out == null) {
           out = JOptionPane.showInputDialog("Please enter a file name ending in .xml or "
                   + " .txt to save the SVG view to.");
         }
-        view.svgSubset(out);
+        view.svgSubset(out, subsetModel);
         view.createMessageDialog("SVG view of the subset was saved.");
         break;
       default:

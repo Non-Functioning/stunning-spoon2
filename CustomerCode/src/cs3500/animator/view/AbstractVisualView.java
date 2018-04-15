@@ -13,9 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import cs3500.animator.model.AnimatedShape;
-import cs3500.animator.model.Animations;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimationModel;
+import cs3500.animator.model.enums.ShapeType;
 
 /**
  * This class extends the AbstractView class. It holds the methods
@@ -26,7 +26,7 @@ public abstract class AbstractVisualView extends AbstractView {
   private List<Float> red;
   private List<Float> green;
   private List<Float> blue;
-  private List<AnimatedShape.ShapeType> shapeType;
+  private List<ShapeType> shapeType;
   private List<Integer> xPosition;
   private List<Integer> yPosition;
   private List<List<Double>> size;
@@ -84,13 +84,13 @@ public abstract class AbstractVisualView extends AbstractView {
 
     for (int i = 0; i < timeline.size(); i++) {
       final int FINALI = currTick;
-      List<Animations> animationTime = timeline.get(FINALI);
+      List<IAnimations> animationTime = timeline.get(FINALI);
 
       task = new TimerTask() {
         @Override
         public void run() {
           initializeParams();
-          addShapeParamsAtTimeT(animationTime, FINALI);
+          addShapeParamsAtTimeT(animationTime, FINALI, timeline);
           drawingPanel.repaint();
           currTick = (currTick + 1) % timeline.size();
         }
@@ -152,7 +152,7 @@ public abstract class AbstractVisualView extends AbstractView {
    * @param animation animation to draw
    * @param time      time of draw
    */
-  private void singleAnimationChange(Animations animation, int time) {
+  private void singleAnimationChange(IAnimations animation, int time) {
     switch (animation.getType()) {
       case MOVE:
         xPosition.add(calcTweening(animation.getPosition1().getX(),
@@ -199,7 +199,7 @@ public abstract class AbstractVisualView extends AbstractView {
    *
    * @param animation animation to draw
    */
-  private void addStillShape(Animations animation) {
+  private void addStillShape(IAnimations animation) {
     red.add(animation.getColor1().getRed().floatValue());
     green.add(animation.getColor1().getGreen().floatValue());
     blue.add(animation.getColor1().getBlue().floatValue());
@@ -230,46 +230,16 @@ public abstract class AbstractVisualView extends AbstractView {
   }
 
   /**
-   * This method adds the animation's shapes into the shape params lists.
-   * Only the shapes that appear at the given time are added.
-   * @param animationTime   list of animations at time T
-   * @param timelineIndex   time T
-   */
-  protected void addShapeParamsAtTimeT(List<Animations> animationTime, int timelineIndex) {
-    for (int j = 0; j < timeline.get(timelineIndex).size(); j++) {
-      String nextShape = "";
-
-      shapeType.add(animationTime.get(j).getChangedShape().getShapeType());
-      singleAnimationChange(animationTime.get(j), timelineIndex);
-
-      if ((j + 1) < animationTime.size()) {
-        nextShape = animationTime.get(j + 1).getChangedShape().getShapeName();
-      }
-
-      while (nextShape.equals(animationTime.get(j).getChangedShape().getShapeName())) {
-        singleAnimationChange(animationTime.get(j + 1), timelineIndex);
-        j++;
-        if ((j + 1) < animationTime.size()) {
-          nextShape = animationTime.get(j + 1).getChangedShape().getShapeName();
-        } else {
-          nextShape = "";
-        }
-      }
-      addRemainingShapeParams(animationTime.get(j));
-    }
-  }
-
-  /**
    * This method also adds the animation's shapes into the shape params lists
    * but it adds the shapes that are specified in the subset model. Only the
    * shapes that appear at the given time are added.
    * @param animationTime   list of animations at time T
    * @param timelineIndex   time T
-   * @param subsetTimeline  subset's timeline
+   * @param animationsAtT  subset's timeline
    */
-  protected void addShapeParamsAtTimeT(List<Animations> animationTime, int timelineIndex,
-                                       List<List<Animations>> subsetTimeline) {
-    for (int j = 0; j < subsetTimeline.get(timelineIndex).size(); j++) {
+  protected void addShapeParamsAtTimeT(List<IAnimations> animationTime, int timelineIndex,
+                                       List<List<IAnimations>> animationsAtT) {
+    for (int j = 0; j < animationsAtT.get(timelineIndex).size(); j++) {
       String nextShape = "";
 
       shapeType.add(animationTime.get(j).getChangedShape().getShapeType());
@@ -297,7 +267,7 @@ public abstract class AbstractVisualView extends AbstractView {
    * params into the lists that are not changed in the animation.
    * @param animation   animation being added
    */
-  private void addRemainingShapeParams(Animations animation) {
+  private void addRemainingShapeParams(IAnimations animation) {
     int shapeCount = shapeType.size();
     if (red.size() < shapeCount) {
       red.add(animation.getColor1().getRed().floatValue());

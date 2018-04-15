@@ -2,6 +2,8 @@ package cs3500.animator.model;
 
 import java.util.List;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 public class ChangeShapeSize extends Animations {
   /**
    * Constructor for ChangesShapeSize Animation. Takes in parameters that
@@ -12,7 +14,7 @@ public class ChangeShapeSize extends Animations {
    * @param time1           beginning time of change
    * @param time2           end time of change
    */
-  public ChangeShapeSize(AnimatedShape changedShape, List<Double> sizeParams1,
+  public ChangeShapeSize(IAnimatedShape changedShape, List<Double> sizeParams1,
                          List<Double> sizeParams2, Integer time1, Integer time2) {
     this.type = AnimateTypes.CHANGESIZE;
     this.changedShape = changedShape;

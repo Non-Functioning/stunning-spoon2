@@ -1,6 +1,7 @@
 package cs3500.animator.view;
 
 import cs3500.animator.controller.IController;
+import cs3500.animator.model.SimpleAnimationModel;
 
 /**
  * This is the interface for the view. All the views are created
@@ -74,29 +75,33 @@ public interface ViewInterface {
    * This method is only used by the Interactive view. It adds a shape chosen by the user
    * to the new subset model.
    * @param shapeName    action by user that includes shape
+   * @param subsetModel  subset model
    */
-  void addToSubset(String shapeName);
+  void addToSubset(String shapeName, SimpleAnimationModel subsetModel);
 
   /**
    * This method opens a dialog box that displays the list of shapes currently
    * in the subset. It also includes a description of how to remove shapes.
+   * @param subsetModel   subset model
    */
-  void showSubsetList();
+  void showSubsetList(SimpleAnimationModel subsetModel);
 
   /**
    * This method is only used by the Interactive view. It plays the subset animation
    * from the given starting tick in the current window.
    * @param subsetStart starting tick
+   * @param subsetModel subset model
    */
-  void playSubset(int subsetStart);
+  void playSubset(int subsetStart, SimpleAnimationModel subsetModel);
 
   /**
    * Generates a SVG view based on the subset selected in the interface, saves the file to a user
    * specified location.
    *
    * @param fileName The file name to save the SVG file as.
+   * @param subsetModel   subset model
    */
-  void svgSubset(String fileName);
+  void svgSubset(String fileName, SimpleAnimationModel subsetModel);
 
   /**
    * This method opens a dialog box with the specified text.

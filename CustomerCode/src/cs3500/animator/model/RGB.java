@@ -2,7 +2,7 @@ package cs3500.animator.model;
 
 import java.util.Objects;
 
-public class RGB {
+public class RGB implements IRGB {
   private final double red;
   private final double green;
   private final double blue;
@@ -16,14 +16,17 @@ public class RGB {
     this.blue = blue;
   }
 
+  @Override
   public Double getRed() {
     return red;
   }
 
+  @Override
   public Double getGreen() {
     return green;
   }
 
+  @Override
   public Double getBlue() {
     return blue;
   }
@@ -33,6 +36,7 @@ public class RGB {
    * by the SVG.
    * @return  string SVG color
    */
+  @Override
   public String toStringSVG() {
     return String.format("(%d, %d, %d)", (int)(this.red * 255), (int)(this.green * 255),
             (int)(this.blue * 255));

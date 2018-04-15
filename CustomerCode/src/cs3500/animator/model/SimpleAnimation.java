@@ -3,6 +3,8 @@ package cs3500.animator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs3500.animator.model.enums.AnimateTypes;
+import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.util.TweenModelBuilder;
 
 /**
@@ -11,9 +13,9 @@ import cs3500.animator.util.TweenModelBuilder;
  * characteristics, and changes to their characteristics over time.
  */
 public class SimpleAnimation implements SimpleAnimationModel {
-  private List<AnimatedShape> shapes;
-  private List<Animations> animations;
-  private List<List<Animations>> timeline;
+  private List<IAnimatedShape> shapes;
+  private List<IAnimations> animations;
+  private List<List<IAnimations>> timeline;
 
   /**
    * The constructor for the SimpleAnimation that initializes the Lists
@@ -42,9 +44,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param time2   time of disappearance
    */
   @Override
-  public void createShape(String name, AnimatedShape.ShapeType type, RGB color1,
-                          Position2D initial, List<Double> params, Integer time1, Integer time2) {
-    AnimatedShape shape1 = new AnimatedShape(name, type, color1, initial, params, time1, time2);
+  public void createShape(String name, ShapeType type, IRGB color1,
+                          IPosition2D initial, List<Double> params, Integer time1, Integer time2) {
+    IAnimatedShape shape1 = new AnimatedShape(name, type, color1, initial, params, time1, time2);
     shapes.add(shape1);
 
     if (timeline.size() < time2) {
@@ -52,7 +54,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         timeline.add(i, new ArrayList<>());
       }
     }
-    timeline.get(time1).add(new ShapeAppears(shape1, time1, time2));
+    timeline.get(time1).add(new ShapeAppears(shape1, time1));
     timeline.get(time2).add(new ShapeDisappears(shape1, time2));
     for (int i = (time1 + 1); i < time2; i++) {
       timeline.get(i).add(new StillShape(shape1, i));
@@ -60,7 +62,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
 
     // ADDS IN THE APPEAR AND DISAPPEAR TIMES
 
-    addNewAnimInTimeOrder(new ShapeAppears(shape1, time1, time2));
+    addNewAnimInTimeOrder(new ShapeAppears(shape1, time1));
     addNewAnimInTimeOrder(new ShapeDisappears(shape1, time2));
   }
 
@@ -69,7 +71,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param shape   shape to copy
    */
   @Override
-  public void copyShape(AnimatedShape shape) {
+  public void copyShape(IAnimatedShape shape) {
     createShape(shape.getShapeName(), shape.getShapeType(), shape.getInitialColor(),
             shape.getInitialPosition(), shape.getInitialSize(), shape.getAppearTime(),
             shape.getDisappearTime());
@@ -80,7 +82,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param animate   animation to copy
    */
   @Override
-  public void copyAnimation(Animations animate) {
+  public void copyAnimation(IAnimations animate) {
     if (getShapeByName(animate.getChangedShape().getShapeName()) != null) {
       addNewAnimInTimeOrder(animate);
       addNewAnimToTimeline(animate);
@@ -99,8 +101,8 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return specified shape
    */
   @Override
-  public AnimatedShape getShape(int shapeIndex) {
-    AnimatedShape animatedShape = shapes.get(shapeIndex);
+  public IAnimatedShape getShape(int shapeIndex) {
+    IAnimatedShape animatedShape = shapes.get(shapeIndex);
     return animatedShape;
   }
 
@@ -110,7 +112,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return        shape with shape name
    */
   @Override
-  public AnimatedShape getShapeByName(String name) {
+  public IAnimatedShape getShapeByName(String name) {
     for (int i = 0; i < shapes.size(); i++) {
       if (shapes.get(i).getShapeName().equals(name)) {
         return shapes.get(i);
@@ -124,7 +126,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return  shape list
    */
   @Override
-  public List<AnimatedShape> getShapes() {
+  public List<IAnimatedShape> getShapes() {
     return this.shapes;
   }
 
@@ -133,7 +135,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return  animation list
    */
   @Override
-  public List<Animations> getAnimations() {
+  public List<IAnimations> getAnimations() {
     updateBeginAnimaPositions();
     updateBeginAnimaColors();
     updateBeginAnimaSizes();
@@ -145,7 +147,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return  timeline
    */
   @Override
-  public List<List<Animations>> getTimeline() {
+  public List<List<IAnimations>> getTimeline() {
     updateBeginAnimaPositions();
     updateBeginAnimaColors();
     updateBeginAnimaSizes();
@@ -162,9 +164,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param time2       end time of move
    */
   @Override
-  public void moveShape(AnimatedShape shape, Position2D newPosition, Integer time1,
+  public void moveShape(IAnimatedShape shape, IPosition2D newPosition, Integer time1,
                         Integer time2) {
-    MoveShape move = new MoveShape(shape, calcCurrPosition(shape, time1), newPosition,
+    IAnimations move = new MoveShape(shape, calcCurrPosition(shape, time1), newPosition,
             time1, time2);
     if (!isValidAnimation(move)) {
       throw new IllegalArgumentException("Invalid move");
@@ -184,9 +186,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param time2    end time of color change
    */
   @Override
-  public void changeShapeColor(AnimatedShape shape, RGB newColor, Integer time1,
+  public void changeShapeColor(IAnimatedShape shape, IRGB newColor, Integer time1,
                                Integer time2) {
-    ChangeShapeColor colorChange = new ChangeShapeColor(shape, calcCurrColor(shape, time1),
+    IAnimations colorChange = new ChangeShapeColor(shape, calcCurrColor(shape, time1),
             newColor, time1, time2);
     if (!isValidAnimation(colorChange)) {
       throw new IllegalArgumentException("Invalid color change");
@@ -206,9 +208,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param time2         end time of size change
    */
   @Override
-  public void changeShapeSize(AnimatedShape shape, List<Double> newSizeParams, Integer time1,
+  public void changeShapeSize(IAnimatedShape shape, List<Double> newSizeParams, Integer time1,
                               Integer time2) {
-    ChangeShapeSize sizeChange = new ChangeShapeSize(shape, calcCurrSize(shape, time1),
+    IAnimations sizeChange = new ChangeShapeSize(shape, calcCurrSize(shape, time1),
             newSizeParams, time1, time2);
     if (!isValidAnimation(sizeChange)) {
       throw new IllegalArgumentException("Invalid size change");
@@ -235,8 +237,8 @@ public class SimpleAnimation implements SimpleAnimationModel {
     }
 
     for (int i = 0; i < animations.size(); i++) {
-      if (animations.get(i).type != Animations.AnimateTypes.APPEAR
-              && animations.get(i).type != Animations.AnimateTypes.DISAPPEAR) {
+      if (animations.get(i).getType() != AnimateTypes.APPEAR
+              && animations.get(i).getType() != AnimateTypes.DISAPPEAR) {
         animationString.append(animations.get(i).toString());
         if (i != (animations.size() - 1)) {
           animationString.append("\n");
@@ -268,7 +270,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param time  time of animation
    */
   @Override
-  public void removeAnimation(AnimatedShape shape, Animations.AnimateTypes type, Integer time) {
+  public void removeAnimation(IAnimatedShape shape, AnimateTypes type, Integer time) {
     Integer time1 = 0;
     Integer time2 = 0;
     for (int i = 0; i < timeline.get(time).size(); i++) {
@@ -313,7 +315,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    */
   @Override
   public void removeShape(int shapeIndex) {
-    AnimatedShape tempShape = shapes.get(shapeIndex);
+    IAnimatedShape tempShape = shapes.get(shapeIndex);
     shapes.remove(shapeIndex);
     for (int i = 0; i < timeline.size(); i++) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
@@ -352,11 +354,11 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return shape's Position2D at time
    */
   @Override
-  public Position2D calcCurrPosition(AnimatedShape shape, int time) {
+  public IPosition2D calcCurrPosition(IAnimatedShape shape, int time) {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == Animations.AnimateTypes.MOVE)) {
+                & (timeline.get(i).get(j).getType() == AnimateTypes.MOVE)) {
           return timeline.get(i).get(j).getPosition2();
         }
       }
@@ -374,11 +376,11 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return shape's RGB at time
    */
   @Override
-  public RGB calcCurrColor(AnimatedShape shape, int time) {
+  public IRGB calcCurrColor(IAnimatedShape shape, int time) {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == Animations.AnimateTypes.CHANGECOLOR)) {
+                & (timeline.get(i).get(j).getType() == AnimateTypes.CHANGECOLOR)) {
           return timeline.get(i).get(j).getColor2();
         }
       }
@@ -396,11 +398,11 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @return shape's size at time
    */
   @Override
-  public List<Double> calcCurrSize(AnimatedShape shape, int time) {
+  public List<Double> calcCurrSize(IAnimatedShape shape, int time) {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == Animations.AnimateTypes.CHANGESIZE)) {
+                & (timeline.get(i).get(j).getType() == AnimateTypes.CHANGESIZE)) {
           return timeline.get(i).get(j).getSizeParams2();
         }
       }
@@ -416,7 +418,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * @param animate Animation to validate
    * @return true, if Animation is valid
    */
-  private boolean isValidAnimation(Animations animate) {
+  private boolean isValidAnimation(IAnimations animate) {
     for (int i = animate.getTime1(); i <= animate.getTime2(); i++) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getType() == animate.getType())
@@ -433,7 +435,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
    *
    * @param obj Animation to add
    */
-  private void addNewAnimInTimeOrder(Animations obj) {
+  private void addNewAnimInTimeOrder(IAnimations obj) {
     if (animations.isEmpty()) {
       animations.add(obj);
     } else {
@@ -455,16 +457,16 @@ public class SimpleAnimation implements SimpleAnimationModel {
    *
    * @param obj Animation to add
    */
-  private void addNewAnimToTimeline(Animations obj) {
+  private void addNewAnimToTimeline(IAnimations obj) {
     for (int i = obj.getTime1(); i <= obj.getTime2(); i++) {
-      List<Animations> animations1 = timeline.get(i);
+      List<IAnimations> animations1 = timeline.get(i);
       if (animations1.isEmpty()) {
         animations1.add(obj);
       }
       else {
         for (int j = 0; j < animations1.size(); j++) {
           if (animations1.get(j).getChangedShape().equals(obj.getChangedShape())) {
-            if (animations1.get(j).getType() == Animations.AnimateTypes.STILL) {
+            if (animations1.get(j).getType() == AnimateTypes.STILL) {
               animations1.remove(j);
             }
             animations1.add(j, obj);
@@ -481,9 +483,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * the animations after the added one to have the correct starting position.
    */
   private void updateBeginAnimaPositions() {
-    Position2D currPosition;
-    Position2D nextPosition;
-    AnimatedShape currShape;
+    IPosition2D currPosition;
+    IPosition2D nextPosition;
+    IAnimatedShape currShape;
     for (int i = 0; i < shapes.size(); i++) {
       currShape = shapes.get(i);
       currPosition = currShape.getInitialPosition();
@@ -492,7 +494,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setPosition1(currPosition);
-            if (timeline.get(j).get(k).getType() == Animations.AnimateTypes.MOVE) {
+            if (timeline.get(j).get(k).getType() == AnimateTypes.MOVE) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextPosition = timeline.get(j).get(k).getPosition2();
               }
@@ -505,7 +507,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setPosition1(currPosition);
-          if (animations.get(j).getType() == Animations.AnimateTypes.MOVE) {
+          if (animations.get(j).getType() == AnimateTypes.MOVE) {
             currPosition = animations.get(j).getPosition2();
           }
         }
@@ -520,9 +522,9 @@ public class SimpleAnimation implements SimpleAnimationModel {
    * color.
    */
   private void updateBeginAnimaColors() {
-    RGB currColor;
-    RGB nextColor;
-    AnimatedShape currShape;
+    IRGB currColor;
+    IRGB nextColor;
+    IAnimatedShape currShape;
     for (int i = 0; i < shapes.size(); i++) {
       currShape = shapes.get(i);
       currColor = currShape.getInitialColor();
@@ -531,7 +533,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setColor1(currColor);
-            if (timeline.get(j).get(k).getType() == Animations.AnimateTypes.CHANGECOLOR) {
+            if (timeline.get(j).get(k).getType() == AnimateTypes.CHANGECOLOR) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextColor = timeline.get(j).get(k).getColor2();
               }
@@ -544,7 +546,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setColor1(currColor);
-          if (animations.get(j).getType() == Animations.AnimateTypes.CHANGECOLOR) {
+          if (animations.get(j).getType() == AnimateTypes.CHANGECOLOR) {
             currColor = animations.get(j).getColor2();
           }
         }
@@ -560,7 +562,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
   private void updateBeginAnimaSizes() {
     List<Double> currSize;
     List<Double> nextSize;
-    AnimatedShape currShape;
+    IAnimatedShape currShape;
     for (int i = 0; i < shapes.size(); i++) {
       currShape = shapes.get(i);
       currSize = currShape.getInitialSize();
@@ -569,7 +571,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setSizeParams1(currSize);
-            if (timeline.get(j).get(k).getType() == Animations.AnimateTypes.CHANGESIZE) {
+            if (timeline.get(j).get(k).getType() == AnimateTypes.CHANGESIZE) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextSize = timeline.get(j).get(k).getSizeParams2();
               }
@@ -582,7 +584,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setSizeParams1(currSize);
-          if (animations.get(j).getType() == Animations.AnimateTypes.CHANGESIZE) {
+          if (animations.get(j).getType() == AnimateTypes.CHANGESIZE) {
             currSize = animations.get(j).getSizeParams2();
           }
         }
@@ -601,7 +603,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       List<Double> params = new ArrayList<Double>();
       params.add((double) xRadius);
       params.add((double) yRadius);
-      this.model.createShape(name, AnimatedShape.ShapeType.OVAL, new RGB(red, green, blue),
+      this.model.createShape(name, ShapeType.OVAL, new RGB(red, green, blue),
               new Position2D(cx, cy), params, startOfLife, endOfLife);
       // ADD THE APPEAR AND DISAPPEAR TIMES HERE.
       return this;
@@ -615,7 +617,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       List<Double> params = new ArrayList<Double>();
       params.add((double) width);
       params.add((double) height);
-      this.model.createShape(name, AnimatedShape.ShapeType.RECTANGLE, new RGB(red, green, blue),
+      this.model.createShape(name, ShapeType.RECTANGLE, new RGB(red, green, blue),
               new Position2D(lx, ly), params, startOfLife, endOfLife);
       return this;
     }
@@ -625,7 +627,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
                                                            float moveFromY, float moveToX,
                                                            float moveToY, int startTime,
                                                            int endTime) {
-      AnimatedShape shapeToChange;
+      IAnimatedShape shapeToChange;
       if (shapeToChange(name) != null) {
         shapeToChange = shapeToChange(name);
         this.model.moveShape(shapeToChange, new Position2D(moveToX, moveToY), startTime, endTime);
@@ -640,7 +642,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
                                                                   float newR, float newG,
                                                                   float newB, int startTime,
                                                                   int endTime) {
-      AnimatedShape shapeToChange;
+      IAnimatedShape shapeToChange;
       if (shapeToChange(name) != null) {
         shapeToChange = shapeToChange(name);
         this.model.changeShapeColor(shapeToChange, new RGB(newR, newG, newB), startTime, endTime);
@@ -654,7 +656,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
                                                                     float fromSy, float toSx,
                                                                     float toSy, int startTime,
                                                                     int endTime) {
-      AnimatedShape shapeToChange;
+      IAnimatedShape shapeToChange;
       if (shapeToChange(name) != null) {
         shapeToChange = shapeToChange(name);
         List<Double> newParams = new ArrayList<Double>();
@@ -671,8 +673,8 @@ public class SimpleAnimation implements SimpleAnimationModel {
       return this.model;
     }
 
-    private AnimatedShape shapeToChange(String name) {
-      AnimatedShape shape;
+    private IAnimatedShape shapeToChange(String name) {
+      IAnimatedShape shape;
       for (int i = 0; i < this.model.getShapes().size(); i++) {
         if (this.model.getShapes().get(i).getShapeName().equals(name)) {
           shape = this.model.getShapes().get(i);

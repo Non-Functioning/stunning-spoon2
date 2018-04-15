@@ -1,5 +1,7 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 public class ChangeShapeColor extends Animations {
   /**
    * Constructor for ChangesShapeColor Animation. Takes in parameters that
@@ -10,7 +12,7 @@ public class ChangeShapeColor extends Animations {
    * @param time1         beginning time of change
    * @param time2         end time of change
    */
-  public ChangeShapeColor(AnimatedShape changedShape, RGB color1, RGB color2, Integer time1,
+  public ChangeShapeColor(IAnimatedShape changedShape, IRGB color1, IRGB color2, Integer time1,
                           Integer time2) {
     this.type = AnimateTypes.CHANGECOLOR;
     this.changedShape = changedShape;

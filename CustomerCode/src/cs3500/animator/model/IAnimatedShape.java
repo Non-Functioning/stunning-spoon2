@@ -2,6 +2,9 @@ package cs3500.animator.model;
 
 import java.util.List;
 
+import cs3500.animator.model.enums.RefPointType;
+import cs3500.animator.model.enums.ShapeType;
+
 /**
  * This is the interface for the AnimatedShape class.
  * This holds all the methods that can be used read information
@@ -9,9 +12,9 @@ import java.util.List;
  */
 public interface IAnimatedShape {
 
-  Position2D getInitialPosition();
+  IPosition2D getInitialPosition();
 
-  RGB getInitialColor();
+  IRGB getInitialColor();
 
   List<Double> getInitialSize();
 
@@ -21,9 +24,9 @@ public interface IAnimatedShape {
 
   Integer getDisappearTime();
 
-  AnimatedShape.ShapeType getShapeType();
+  ShapeType getShapeType();
 
-  AnimatedShape.RefPointType getRefPoint();
+  RefPointType getRefPoint();
 
   /**
    * Converts the given size parameters into a String based on the shape's type.

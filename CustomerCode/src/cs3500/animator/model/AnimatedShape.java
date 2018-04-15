@@ -3,6 +3,9 @@ package cs3500.animator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs3500.animator.model.enums.RefPointType;
+import cs3500.animator.model.enums.ShapeType;
+
 /**
  * Class that represents a shape that can be put into the animation.
  * This class holds all the parameters necessary to draw a shape.
@@ -10,10 +13,10 @@ import java.util.List;
 public class AnimatedShape implements IAnimatedShape {
   private String shapeName;
   private ShapeType shapeType;
-  private RGB initialColor;
+  private IRGB initialColor;
   private RefPointType refPoint;
-  private Position2D initialPosition;
-  private List<Double> initialSize;
+  private IPosition2D initialPosition;
+  protected List<Double> initialSize;
   private Integer appearTime;
   private Integer disappearTime;
 
@@ -22,15 +25,15 @@ public class AnimatedShape implements IAnimatedShape {
    * using the given parameters.
    * @param shapeName       shape name
    * @param shape           shape type
-   * @param initialColor      shape color
+   * @param initialColor    shape color
    * @param initialPosition shape's initial position
    * @param size            shape's size
    * @param appearTime      shape's appearance time
    * @param disappearTime   shape's disappearance time
    */
-  public AnimatedShape(String shapeName, ShapeType shape, RGB initialColor,
-                          Position2D initialPosition, List<Double> size, Integer appearTime,
-                          Integer disappearTime) {
+  public AnimatedShape(String shapeName, ShapeType shape, IRGB initialColor,
+                       IPosition2D initialPosition, List<Double> size, Integer appearTime,
+                       Integer disappearTime) {
     this.shapeName = shapeName;
     this.shapeType = shape;
     this.initialColor = initialColor;
@@ -53,12 +56,12 @@ public class AnimatedShape implements IAnimatedShape {
   }
 
   @Override
-  public Position2D getInitialPosition() {
+  public IPosition2D getInitialPosition() {
     return initialPosition;
   }
 
   @Override
-  public RGB getInitialColor() {
+  public IRGB getInitialColor() {
     return initialColor;
   }
 
@@ -177,45 +180,6 @@ public class AnimatedShape implements IAnimatedShape {
         return (numSides == 1);
       default:
         return (numSides > 2);
-    }
-  }
-
-  /**
-   * Type for possible shapes and their string representations.
-   */
-  public enum ShapeType {
-    RECTANGLE("rectangle"),
-    SQUARE("square"),
-    OVAL("oval"),
-    CIRCLE("circle"),
-    POLYGON("polygon");
-
-    private final String stringValue;
-
-    ShapeType(String stringValue) {
-      this.stringValue = stringValue;
-    }
-
-    public String getStringValue() {
-      return stringValue;
-    }
-  }
-
-  /**
-   * Type for valid shape reference points and their string representations.
-   */
-  public enum RefPointType {
-    CENTER("Center"),
-    MINCORNER("Min-corner");
-
-    private final String stringValue;
-
-    RefPointType(String stringValue) {
-      this.stringValue = stringValue;
-    }
-
-    public String getStringValue() {
-      return stringValue;
     }
   }
 

@@ -250,4 +250,18 @@ public class AnimationViewTests {
     String[] args = {"-if", "invalid-shape.txt", "-iv", "svg", "-o", "out", "-speed", "20"};
     EasyAnimator.main(args);
   }
+
+  @Test
+  public void testVisual() throws IOException, InterruptedException {
+    String[] args = {"-if", "buildings.txt", "-iv", "visual", "-o", "out", "-speed", "20"};
+    EasyAnimator.main(args);
+    Thread.sleep(30000);
+  }
+
+  @Test
+  public void testInteractive() throws IOException, InterruptedException {
+    String[] args = {"-if", "buildings.txt", "-iv", "interactive", "-o", "out", "-speed", "10"};
+    EasyAnimator.main(args);
+    Thread.sleep(30000);
+  }
 }

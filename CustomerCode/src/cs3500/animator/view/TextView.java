@@ -4,9 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import cs3500.animator.controller.IController;
-import cs3500.animator.model.AnimatedShape;
-import cs3500.animator.model.Animations;
+import cs3500.animator.model.IAnimatedShape;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimationModel;
+import cs3500.animator.model.enums.AnimateTypes;
 
 /**
  * This class represents a textual view of an animation.
@@ -63,8 +64,8 @@ public class TextView extends AbstractView {
     }
 
     for (int i = 0; i < animations.size(); i++) {
-      if (animations.get(i).type != Animations.AnimateTypes.APPEAR
-              && animations.get(i).type != Animations.AnimateTypes.DISAPPEAR) {
+      if (animations.get(i).getType() != AnimateTypes.APPEAR
+              && animations.get(i).getType() != AnimateTypes.DISAPPEAR) {
         animationString.append(animationToString(i));
         if (i != (animations.size() - 1)) {
           animationString.append("\n");
@@ -81,7 +82,7 @@ public class TextView extends AbstractView {
    * @return shape as a String
    */
   private String shapeToString(int index) {
-    AnimatedShape currentShape = shapes.get(index);
+    IAnimatedShape currentShape = shapes.get(index);
     return "Name: " + currentShape.getShapeName() + "\nType: " + currentShape.getShapeType()
             .getStringValue() + "\n"
             + currentShape.getRefPoint().getStringValue() + ": " + currentShape.getInitialPosition()
@@ -100,7 +101,7 @@ public class TextView extends AbstractView {
    * @return animation as a String
    */
   private String animationToString(int index) {
-    Animations currentAnimations = animations.get(index);
+    IAnimations currentAnimations = animations.get(index);
 
     StringBuilder newString = new StringBuilder("Shape " + currentAnimations.getChangedShape()
             .getShapeName());
@@ -239,18 +240,20 @@ public class TextView extends AbstractView {
    * This method is only used by the Interactive view. It adds a shape chosen by the user
    * to the new subset model.
    * @param shapeName    action by user that includes shape
+   * @param subsetModel  subset model
    */
   @Override
-  public void addToSubset(String shapeName) {
+  public void addToSubset(String shapeName, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
   /**
    * This method opens a dialog box that displays the list of shapes currently
    * in the subset. It also includes a description of how to remove shapes.
+   * @param subsetModel subset model
    */
   @Override
-  public void showSubsetList() {
+  public void showSubsetList(SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
@@ -258,9 +261,10 @@ public class TextView extends AbstractView {
    * This method is only used by the Interactive view. It plays the subset animation
    * from the given starting tick in the current window.
    * @param subsetStart starting tick
+   * @param subsetModel subset model
    */
   @Override
-  public void playSubset( int subsetStart) {
+  public void playSubset(int subsetStart, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 
@@ -269,9 +273,10 @@ public class TextView extends AbstractView {
    * specified location.
    *
    * @param fileName The file name to save the SVG file as.
+   * @param subsetModel subset model
    */
   @Override
-  public void svgSubset(String fileName) {
+  public void svgSubset(String fileName, SimpleAnimationModel subsetModel) {
     throw new UnsupportedOperationException("This view does not support subset animations.");
   }
 

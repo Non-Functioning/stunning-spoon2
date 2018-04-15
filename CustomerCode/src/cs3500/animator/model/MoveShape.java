@@ -1,5 +1,7 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.enums.AnimateTypes;
+
 public class MoveShape extends Animations {
   /**
    * Constructor for MoveShape Animation. Takes in parameters that
@@ -10,7 +12,7 @@ public class MoveShape extends Animations {
    * @param time1         beginning time of change
    * @param time2         end time of change
    */
-  public MoveShape(AnimatedShape changedShape, Position2D position1, Position2D position2,
+  public MoveShape(IAnimatedShape changedShape, IPosition2D position1, IPosition2D position2,
                    Integer time1, Integer time2) {
     this.type = AnimateTypes.MOVE;
     this.changedShape = changedShape;
