@@ -1,19 +1,21 @@
-package cs3500.animator.model.provider_implements;
+package cs3500.animator.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
+import cs3500.animator.model.Position2D;
 import cs3500.animator.model.enums.ShapeType;
+import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
-public class ProviderShape extends AnimatedShape implements IShape {
+public class ShapeAdapter extends AnimatedShape implements IShape {
 
-  public ProviderShape(String shapeName, ShapeType shape, RGB initialColor,
-                       Position2D initialPosition, List<Double> size, Integer appearTime,
-                       Integer disappearTime) {
+  public ShapeAdapter(String shapeName, ShapeType shape, InterfaceRGB initialColor,
+                      Position2D initialPosition, List<Double> size, Integer appearTime,
+                      Integer disappearTime) {
     super(shapeName, shape, initialColor, initialPosition, size, appearTime, disappearTime);
   }
 
@@ -34,7 +36,7 @@ public class ProviderShape extends AnimatedShape implements IShape {
    * @param rgb The given RGB values.
    */
   @Override
-  public void setRGB(RGB rgb) {
+  public void setRGB(InterfaceRGB rgb) {
 
   }
 
@@ -97,7 +99,7 @@ public class ProviderShape extends AnimatedShape implements IShape {
    */
   @Override
   public double getHeight() {
-    return initialSize.get(1)
+    return initialSize.get(1);
   }
 
   /**
@@ -106,7 +108,7 @@ public class ProviderShape extends AnimatedShape implements IShape {
    * @return the RGB values.
    */
   @Override
-  public RGB getRGB() {
+  public InterfaceRGB getRGB() {
     return null;
   }
 

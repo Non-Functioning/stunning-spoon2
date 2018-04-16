@@ -1,10 +1,10 @@
-package cs3500.animator.model.provider_implements;
+package cs3500.animator.adapters;
 
 import cs3500.animator.model.Animations;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
-public class ProviderAnimation extends Animations implements IAnimation {
+public class AnimationAdapter extends Animations implements IAnimation {
 
   /**
    * Perform this animation on the given shape and return what the shape will be at the given time.

@@ -1,4 +1,4 @@
-package cs3500.animator.model.provider_implements;
+package cs3500.animator.adapters;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 import cs3500.animator.provider.model.IEasyAnimatorModel;
 
-public class ProviderModel extends SimpleAnimation implements IEasyAnimatorModel {
+public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel {
   /**
    * Add a new shape to keep track of in the model.
    *
