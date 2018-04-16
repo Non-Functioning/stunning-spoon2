@@ -1,5 +1,9 @@
 package cs3500.animator.model;
 
+/**
+ * This is the interface for the RGB class.
+ * It provides methods to access the red, green, and blue values.
+ */
 public interface IRGB {
 
   Double getRed();
