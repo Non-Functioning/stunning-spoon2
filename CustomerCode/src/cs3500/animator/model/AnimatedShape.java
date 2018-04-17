@@ -11,14 +11,14 @@ import cs3500.animator.model.enums.ShapeType;
  * This class holds all the parameters necessary to draw a shape.
  */
 public class AnimatedShape implements IAnimatedShape {
-  private String shapeName;
-  private ShapeType shapeType;
-  private IRGB initialColor;
-  private RefPointType refPoint;
-  private IPosition2D initialPosition;
+  protected String shapeName;
+  protected ShapeType shapeType;
+  protected IRGB initialColor;
+  protected RefPointType refPoint;
+  protected IPosition2D initialPosition;
   protected List<Double> initialSize;
-  private Integer appearTime;
-  private Integer disappearTime;
+  protected Integer appearTime;
+  protected Integer disappearTime;
 
   /**
    * Constructor for the AnimatedShape. Initializes all shape variables
