@@ -5,7 +5,6 @@ import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
 import cs3500.animator.model.IPosition2D;
-import cs3500.animator.model.IRGB;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
 import cs3500.animator.model.enums.ShapeType;

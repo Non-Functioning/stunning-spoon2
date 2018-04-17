@@ -2,12 +2,18 @@ package cs3500.animator.adapters;
 
 import java.util.List;
 
+import cs3500.animator.model.IAnimatedShape;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimation;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 import cs3500.animator.provider.model.IEasyAnimatorModel;
 
 public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel {
+
+  public ModelAdapter() {
+    super();
+  }
   /**
    * Add a new shape to keep track of in the model.
    *
@@ -15,7 +21,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addShape(IShape shape) {
-
+    this.copyShape((IAnimatedShape) shape);
   }
 
   /**
@@ -28,7 +34,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addAnimation(IAnimation animation, int shapeIndex) throws IllegalArgumentException {
-
+    this.copyAnimation((IAnimations) animation);
   }
 
   /**
