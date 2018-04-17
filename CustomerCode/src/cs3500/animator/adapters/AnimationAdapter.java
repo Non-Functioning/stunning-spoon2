@@ -1,51 +1,47 @@
 package cs3500.animator.adapters;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.Animations;
 import cs3500.animator.model.ChangeShapeColor;
 import cs3500.animator.model.ChangeShapeSize;
-import cs3500.animator.model.IAnimatedShape;
-import cs3500.animator.model.IPosition2D;
-import cs3500.animator.model.IRGB;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.MoveShape;
-import cs3500.animator.model.Position2D;
-import cs3500.animator.model.RGB;
 import cs3500.animator.model.ShapeAppears;
 import cs3500.animator.model.ShapeDisappears;
 import cs3500.animator.model.StillShape;
-import cs3500.animator.model.enums.AnimateTypes;
-import cs3500.animator.model.enums.ShapeType;
-import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
 public class AnimationAdapter implements IAnimation {
-  private Animations animations;
+  private IAnimations animations;
 
-  AnimationAdapter(IAnimatedShape changedShape, AnimateTypes type, Integer time1, Integer time2,
-                   IRGB color1, IRGB color2, List<Double> sizeParams1, List<Double> sizeParams2,
-                   IPosition2D position1, IPosition2D position2) {
-    switch (type) {
+  AnimationAdapter(IAnimations iAnimations) {
+    this.animations = iAnimations;
+    /*switch (animations.getType()) {
       case MOVE:
-        this.animations = new MoveShape(changedShape, position1, position2, time1, time2);
+        this.animations = new MoveShape(animations.getChangedShape(), animations.getPosition1(),
+                animations.getPosition2(), animations.getTime1(), animations.getTime2());
         break;
       case APPEAR:
-        this.animations = new ShapeAppears(changedShape, time1);
+        this.animations = new ShapeAppears(animations.getChangedShape(), animations.getTime1());
         break;
       case DISAPPEAR:
-        this.animations = new ShapeDisappears(changedShape, time1);
+        this.animations = new ShapeDisappears(animations.getChangedShape(), animations.getTime1());
         break;
       case STILL:
-        this.animations = new StillShape(changedShape, time1);
+        this.animations = new StillShape(animations.getChangedShape(), animations.getTime1());
         break;
       case CHANGESIZE:
-        this.animations = new ChangeShapeSize(changedShape, sizeParams1, sizeParams2, time1, time2);
+        this.animations = new ChangeShapeSize(animations.getChangedShape(),
+                animations.getSizeParams1(), animations.getSizeParams2(), animations.getTime1(),
+                animations.getTime2());
         break;
       case CHANGECOLOR:
-        this.animations = new ChangeShapeColor(changedShape, color1, color2, time1, time2);
-    }
+        this.animations = new ChangeShapeColor(animations.getChangedShape(),
+                animations.getColor1(), animations.getColor2(), animations.getTime1(),
+                animations.getTime2());
+    }*/
   }
 
   /**
