@@ -74,7 +74,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
   public void copyShape(IAnimatedShape shape) {
     createShape(shape.getShapeName(), shape.getShapeType(), shape.getInitialColor(),
             shape.getInitialPosition(), shape.getInitialSize(), shape.getAppearTime(),
-            shape.getDisappearTime());
+            shape.getDisappearT());
   }
 
   /**

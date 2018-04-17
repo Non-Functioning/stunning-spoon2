@@ -85,7 +85,7 @@ public class Animations implements IAnimations {
   }
 
   protected boolean validateAnimationTimes() {
-    return ((changedShape.getAppearTime() <= time1) && (changedShape.getDisappearTime() >= time2));
+    return ((changedShape.getAppearTime() <= time1) && (changedShape.getDisappearT() >= time2));
   }
 
   @Override

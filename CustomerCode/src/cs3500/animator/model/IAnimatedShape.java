@@ -22,7 +22,7 @@ public interface IAnimatedShape {
 
   Integer getAppearTime();
 
-  Integer getDisappearTime();
+  Integer getDisappearT();
 
   ShapeType getShapeType();
 

@@ -10,7 +10,6 @@ import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
@@ -166,7 +165,9 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public IShape shapeAtTime(int t) {
-    List<IAnimation> animationsAtTime = new ArrayList<>();
+    return null;
+  }
+  /*  List<IAnimation> animationsAtTime = new ArrayList<>();
     InterfaceRGB color;
     Position2D pos;
     List<Double> size;
@@ -179,6 +180,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
     for (int i = 0; i < animationsAtTime.size(); i++) {
       switch (animationsAtTime.get(i).getType()) {
         case "move":
+          animationsAtTime.get(i)
           break;
         case "scale":
           break;
@@ -190,7 +192,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
     }
     IShape shape = new ShapeAdapter(this.shapeName, this.shapeType, );
     return shape;
-  }
+  }*/
 
   /**
    * Creates an SVG description for this shape and its animations.
@@ -254,7 +256,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public int getDisappearTime() {
-    return this.getDisappearTime();
+    return this.disappearTime;
   }
 
   /**

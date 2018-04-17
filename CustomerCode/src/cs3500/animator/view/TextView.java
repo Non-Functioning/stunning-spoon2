@@ -91,7 +91,7 @@ public class TextView extends AbstractView {
             + currentShape.getInitialColor().toString()
             + "\nAppears at t=" + String.valueOf(currentShape.getAppearTime() / tempo)
             + "s\nDisappears at t="
-            + String.valueOf(currentShape.getDisappearTime() / tempo) + "s";
+            + String.valueOf(currentShape.getDisappearT() / tempo) + "s";
   }
 
   /**

@@ -81,7 +81,7 @@ public class AnimatedShape implements IAnimatedShape {
   }
 
   @Override
-  public Integer getDisappearTime() {
+  public Integer getDisappearT() {
     return disappearTime;
   }
 
