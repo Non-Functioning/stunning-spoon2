@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import cs3500.animator.view.AnimationPanel;
-
 /**
  * This is an implementation of the IAnimatorView interface that uses Java Swing to draw the
  * results of the animation in a panel.
@@ -23,18 +21,18 @@ public class VisualAnimationView extends AAnimatorView {
     super();
 
     this.setTitle("Animation");
-    this.setSize(500,500);
+    this.setSize(500, 500);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
     // uses a borderlayout with drawing panel in center and button panel in south
     this.setLayout(new BorderLayout());
     this.animationPanel = new AnimationPanel();
-    this.animationPanel.setPreferredSize(new Dimension(500,500));
-    this.add(this.animationPanel,BorderLayout.CENTER);
+    this.animationPanel.setPreferredSize(new Dimension(500, 500));
+    this.add(this.animationPanel, BorderLayout.CENTER);
 
 
-    JScrollPane jScrollPane  = new JScrollPane(this.animationPanel);
+    JScrollPane jScrollPane = new JScrollPane(this.animationPanel);
     jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     this.getContentPane().add(jScrollPane);

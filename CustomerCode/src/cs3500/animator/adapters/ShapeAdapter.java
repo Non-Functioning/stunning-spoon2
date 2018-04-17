@@ -173,10 +173,8 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
       case RECTANGLE:
         return visitor.visitRectangle(this);
 
-
       case OVAL:
         return visitor.visitOval(this);
-
 
       default:
         throw new IllegalArgumentException("Shape type does not exist.");
@@ -220,7 +218,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public int getDisappearTime() {
-    return this.getDisappearTime();
+    return Integer.parseInt(super.getDisappearTime().toString());
   }
 
   /**
