@@ -89,6 +89,11 @@ public class EasyAnimator {
       case "interactive":
         returnView = ViewCreator.ViewType.INTERACTIVE;
         break;
+
+      case "provider":
+        returnView = ViewCreator.ViewType.PROVIDER;
+        break;
+
       default:
         throw new IllegalArgumentException("Invalid view type argument");
     }

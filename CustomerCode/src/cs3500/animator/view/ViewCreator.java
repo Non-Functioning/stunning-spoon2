@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import cs3500.animator.controller.Controller;
 import cs3500.animator.model.SimpleAnimationModel;
+import cs3500.animator.provider.view.HybridView;
+import cs3500.animator.provider.view.IAnimatorView;
 
 /**
  * This class represents a factory of views. It takes in a view type
@@ -47,6 +49,11 @@ public class ViewCreator {
           new Controller(model, view);
         }
         break;
+
+      case PROVIDER:
+        new HybridView();
+        break;
+
       default:
         throw new IllegalArgumentException("Invalid view type");
     }
@@ -56,6 +63,6 @@ public class ViewCreator {
    * An enumeration for the representation of different view types.
    */
   public enum ViewType {
-    TEXT, VISUAL, SVG, INTERACTIVE, NULL
+    TEXT, VISUAL, SVG, INTERACTIVE, PROVIDER, NULL
   }
 }
