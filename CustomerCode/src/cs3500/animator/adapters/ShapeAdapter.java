@@ -137,7 +137,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return new Position2D(this.initialPosition.getX(), this.initialPosition.getY());
+    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
   }
 
   /**
