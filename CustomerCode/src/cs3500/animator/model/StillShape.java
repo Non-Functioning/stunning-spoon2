@@ -19,5 +19,6 @@ public class StillShape extends Animations {
     this.color1 = changedShape.getInitialColor();
     this.sizeParams1 = changedShape.getInitialSize();
     this.time1 = time1;
+    this.time2 = time1;
   }
 }

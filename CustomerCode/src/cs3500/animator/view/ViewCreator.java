@@ -6,17 +6,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.animator.adapters.ControllerAdapter;
-import cs3500.animator.adapters.ModelAdapter;
 import cs3500.animator.adapters.ShapeAdapter;
 import cs3500.animator.controller.Controller;
 import cs3500.animator.model.SimpleAnimationModel;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.provider.model.IEasyAnimatorModel;
 import cs3500.animator.provider.view.HybridView;
 import cs3500.animator.provider.view.IAnimatorView;
 import cs3500.animator.provider.view.SVGAnimationView;
 import cs3500.animator.provider.view.TextualAnimationView;
+import cs3500.animator.provider.view.VisualAnimationView;
 
 /**
  * This class represents a factory of views. It takes in a view type
@@ -84,9 +82,10 @@ public class ViewCreator {
         break;
       case PROVIDERSVG:
         IAnimatorView viewSVG = new SVGAnimationView();
+        viewSVG.setTicksPerSecondTo(tempo);
         List<IShape> iShapes = new ArrayList<>();
         for (int i = 0; i < model.getShapes().size(); i++) {
-          iShapes.add(new ShapeAdapter(model.getShape(i)));
+          iShapes.add(new ShapeAdapter(model, model.getShape(i)));
         }
         viewSVG.setShapes(iShapes);
         String svgText = viewSVG.getDescription();
@@ -102,6 +101,23 @@ public class ViewCreator {
         }
         break;
       case PROVIDERVISUAL:
+        IAnimatorView viewVisual = new VisualAnimationView();
+        viewVisual.setTicksPerSecondTo(tempo);
+        List<IShape> shapeList = new ArrayList<>();
+        viewVisual.setVisible();
+
+        for (int i = 0; i < model.getTimeline().size(); i++) {
+          for (int j = 0; j < model.getShapes().size(); j++) {
+            if ((model.getShape(j).getAppearTime() <= i)
+                    & (model.getShape(j).getDisappearT() >= i)) {
+              shapeList.add(new ShapeAdapter(model, model.getShape(j)));
+            }
+          }
+
+          viewVisual.setShapes(shapeList);
+          viewVisual.setTickTo(i);
+          viewVisual.refresh();
+        }
         break;
       default:
         throw new IllegalArgumentException("Invalid view type");
