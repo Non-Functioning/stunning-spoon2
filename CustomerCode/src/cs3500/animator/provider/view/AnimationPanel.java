@@ -1,4 +1,4 @@
-package cs3500.animator.provider.view;
+package cs3500.animator.view;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -28,7 +28,6 @@ public class AnimationPanel extends JPanel {
 
   /**
    * Assigns given list of shapes to this panel.
-   *
    * @param animations a list with all shapes of this animation
    */
   public void setAnimations(List<IShape> animations) {

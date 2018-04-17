@@ -20,7 +20,8 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
                       Position2D initialPosition, List<Double> size, Integer appearTime,
                       Integer disappearTime) {
     super(shapeName, type, new RGB(initialColor.getRed(), initialColor.getGreen(),
-            initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
+                    initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
+    animations = new ArrayList<>();
   }
 
   /**
@@ -124,7 +125,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return new Position2D(this.initialPosition.getX(), this.initialPosition.getY());
+    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
   }
 
   /**
@@ -137,7 +138,24 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public void addAnimation(IAnimation animation) throws IllegalArgumentException {
-
+    if (!isValidAnimation(animation)) {
+      throw new IllegalArgumentException("Invalid animation for shape " + this.shapeName);
+    }
+    if (animations.isEmpty()) {
+      animations.add(animation);
+    }
+    else {
+      for (int i = 0; i < animations.size(); i++) {
+        if (animation.getStartTime() <= animations.get(i).getStartTime()) {
+          animations.add(i, animation);
+          break;
+        }
+        else if (i == (animations.size() - 1)) {
+          animations.add(animation);
+          break;
+        }
+      }
+    }
   }
 
   /**
@@ -148,12 +166,34 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public IShape shapeAtTime(int t) {
-    return null;
+    List<IAnimation> animationsAtTime = new ArrayList<>();
+    InterfaceRGB color;
+    Position2D pos;
+    List<Double> size;
+
+    for (int i = 0; i < animations.size(); i++) {
+      if ((t >= animations.get(i).getStartTime()) & (t <= animations.get(i).getEndTime())) {
+        animationsAtTime.add(animations.get(i));
+      }
+    }
+    for (int i = 0; i < animationsAtTime.size(); i++) {
+      switch (animationsAtTime.get(i).getType()) {
+        case "move":
+          break;
+        case "scale":
+          break;
+        case "color":
+          break;
+        default:
+          throw new IllegalArgumentException("Invalid animation type");
+      }
+    }
+    IShape shape = new ShapeAdapter(this.shapeName, this.shapeType, );
+    return shape;
   }
 
   /**
    * Creates an SVG description for this shape and its animations.
-   *
    * @return an SVG formatted description of this shape
    */
   @Override
@@ -163,21 +203,19 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Applies a given visitor to this shape.
-   *
    * @param visitor a shape visitor to be applied to this shape.
    * @return result of application the given visitor to this shape.
    */
   @Override
   public <T> T accept(IShapeVisitor<T> visitor) {
-    switch (this.getShapeType()) {
+    switch(this.getShapeType()){
       case RECTANGLE:
-        return visitor.visitRectangle(this);
+        visitor.visitRectangle(this);
+        break;
 
       case OVAL:
-        return visitor.visitOval(this);
-
-      default:
-        throw new IllegalArgumentException("Shape type does not exist.");
+        visitor.visitOval(this);
+        break;
     }
   }
 
@@ -213,12 +251,11 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Returns the time that this shape should disappear.
-   *
    * @return the disappear time.
    */
   @Override
   public int getDisappearTime() {
-    return Integer.parseInt(super.getDisappearTime().toString());
+    return this.getDisappearTime();
   }
 
   /**
@@ -227,5 +264,46 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
   @Override
   public boolean isPointWithinShape(Position2D point) {
     return false;
+  }
+
+  /**
+   * Checks if the given Animation is valid and that it does not overlap
+   * with another Animation of the same type occurring at the same time on
+   * the same shape.
+   *
+   * @param a Animation to validate
+   * @return true, if Animation is valid
+   */
+  private boolean isValidAnimation(IAnimation a) {
+    for (int i = 0; i < animations.size(); i++) {
+      IAnimation b = animations.get(i);
+      if ((a.getType() == b.getType())
+              & (((a.getStartTime() >= b.getStartTime()) & (a.getStartTime() <= b.getEndTime()))
+              | ((a.getEndTime() >= b.getStartTime()) & (a.getEndTime() <= b.getEndTime())))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * This method calculates the tweening value of an animation at a given time.
+   * This method is used for move, change color, and change size animations.
+   *
+   * @param initVal   initial value
+   * @param finalVal  final value
+   * @param initTick  time of initial value
+   * @param finalTick time of final value
+   * @param tick  current time
+   * @return value at current time
+   */
+  private Double calcTweening(Double initVal, Double finalVal, Integer initTick,
+                              Integer finalTick, Integer tick) {
+    Integer t1 = (finalTick - tick);
+    Integer t2 = (tick - initTick);
+    Integer t3 = (finalTick - initTick);
+    Double v1 = t1.doubleValue() / t3.doubleValue();
+    Double v2 = t2.doubleValue() / t3.doubleValue();
+    return (initVal * v1) + (finalVal * v2);
   }
 }
