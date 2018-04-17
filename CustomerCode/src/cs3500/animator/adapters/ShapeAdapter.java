@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
+import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
 import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
+import javafx.geometry.Pos;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
   private List<IAnimation> animations;
@@ -21,6 +22,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
                       Integer disappearTime) {
     super(shapeName, type, new RGB(initialColor.getRed(), initialColor.getGreen(),
                     initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
+    animations = new ArrayList<>();
   }
 
   /**
@@ -137,7 +139,24 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public void addAnimation(IAnimation animation) throws IllegalArgumentException {
-
+    if (!isValidAnimation(animation)) {
+      throw new IllegalArgumentException("Invalid animation for shape " + this.shapeName);
+    }
+    if (animations.isEmpty()) {
+      animations.add(animation);
+    }
+    else {
+      for (int i = 0; i < animations.size(); i++) {
+        if (animation.getStartTime() <= animations.get(i).getStartTime()) {
+          animations.add(i, animation);
+          break;
+        }
+        else if (i == (animations.size() - 1)) {
+          animations.add(animation);
+          break;
+        }
+      }
+    }
   }
 
   /**
@@ -148,7 +167,30 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public IShape shapeAtTime(int t) {
-    return null;
+    List<IAnimation> animationsAtTime = new ArrayList<>();
+    InterfaceRGB color;
+    Position2D pos;
+    List<Double> size;
+
+    for (int i = 0; i < animations.size(); i++) {
+      if ((t >= animations.get(i).getStartTime()) & (t <= animations.get(i).getEndTime())) {
+        animationsAtTime.add(animations.get(i));
+      }
+    }
+    for (int i = 0; i < animationsAtTime.size(); i++) {
+      switch (animationsAtTime.get(i).getType()) {
+        case "move":
+          break;
+        case "scale":
+          break;
+        case "color":
+          break;
+        default:
+          throw new IllegalArgumentException("Invalid animation type");
+      }
+    }
+    IShape shape = new ShapeAdapter(this.shapeName, this.shapeType, );
+    return shape;
   }
 
   /**
@@ -214,7 +256,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public int getDisappearTime() {
-    return this.getDisappearTime();
+    return getDisappearTime();
   }
 
   /**
@@ -223,5 +265,46 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
   @Override
   public boolean isPointWithinShape(Position2D point) {
     return false;
+  }
+
+  /**
+   * Checks if the given Animation is valid and that it does not overlap
+   * with another Animation of the same type occurring at the same time on
+   * the same shape.
+   *
+   * @param a Animation to validate
+   * @return true, if Animation is valid
+   */
+  private boolean isValidAnimation(IAnimation a) {
+    for (int i = 0; i < animations.size(); i++) {
+      IAnimation b = animations.get(i);
+      if ((a.getType() == b.getType())
+              & (((a.getStartTime() >= b.getStartTime()) & (a.getStartTime() <= b.getEndTime()))
+              | ((a.getEndTime() >= b.getStartTime()) & (a.getEndTime() <= b.getEndTime())))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * This method calculates the tweening value of an animation at a given time.
+   * This method is used for move, change color, and change size animations.
+   *
+   * @param initVal   initial value
+   * @param finalVal  final value
+   * @param initTick  time of initial value
+   * @param finalTick time of final value
+   * @param tick  current time
+   * @return value at current time
+   */
+  private Double calcTweening(Double initVal, Double finalVal, Integer initTick,
+                              Integer finalTick, Integer tick) {
+    Integer t1 = (finalTick - tick);
+    Integer t2 = (tick - initTick);
+    Integer t3 = (finalTick - initTick);
+    Double v1 = t1.doubleValue() / t3.doubleValue();
+    Double v2 = t2.doubleValue() / t3.doubleValue();
+    return (initVal * v1) + (finalVal * v2);
   }
 }

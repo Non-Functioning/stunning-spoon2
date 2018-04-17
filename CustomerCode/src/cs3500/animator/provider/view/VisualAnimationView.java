@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import cs3500.animator.view.AnimationPanel;
-
 /**
  * This is an implementation of the IAnimatorView interface that uses Java Swing to draw the
  * results of the animation in a panel.

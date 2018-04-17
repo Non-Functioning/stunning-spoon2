@@ -1,4 +1,4 @@
-package cs3500.animator.view;
+package cs3500.animator.provider.view;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import cs3500.animator.provider.hw5.shapes.IShape;
+import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
-import cs3500.hw5.shapes.visitor.DrawVisitor;
 
 /**
  * This class represents an implementation of JPanel for EasyAnimator to be used by its visual view.
