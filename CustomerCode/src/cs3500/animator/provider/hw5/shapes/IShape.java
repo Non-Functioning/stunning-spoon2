@@ -144,5 +144,17 @@ public interface IShape {
    */
   boolean isPointWithinShape(Position2D point);
 
+  /**
+   * Returns the shape as it is when originally created.
+   * @return original shape
+   */
+  IShape getOriginal();
+
+  /**
+   * Return the type of shape for svg purposes. For example "rect" or "ellipse".
+   * @return type of shape
+   */
+  String getSVGType();
+
 
 }

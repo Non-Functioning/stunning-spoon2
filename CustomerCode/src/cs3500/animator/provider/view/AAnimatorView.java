@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import cs3500.animator.model.Position2D;
+import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
 /**
@@ -46,7 +47,7 @@ public abstract class AAnimatorView extends JFrame implements IAnimatorView {
 
   @Override
   public void showErrorMsg(String error) {
-    JOptionPane.showMessageDialog(this, error, "Error",
+    JOptionPane.showMessageDialog(this, error,"Error",
             JOptionPane.ERROR_MESSAGE);
   }
 
@@ -122,7 +123,7 @@ public abstract class AAnimatorView extends JFrame implements IAnimatorView {
     int duration = this.getAnimEndTime();
     StringBuilder builder = new StringBuilder();
 
-    String description = "<svg width=\"700\" height=\"500\" version=\"1.1\"\n"
+    String description = "<svg width=\"5000\" height=\"5000\" version=\"1.1\"\n"
             + "     xmlns=\"http://www.w3.org/2000/svg\">\n";
 
     builder.append(description);
@@ -136,7 +137,8 @@ public abstract class AAnimatorView extends JFrame implements IAnimatorView {
     }
 
     for (IShape s : this.animationShapes) {
-      builder.append(s.getSVG(this.ticksPerSecond, this.isLooping()) + "\n");
+      //builder.append(s.getSVG(this.ticksPerSecond, this.isLooping()) + "\n");
+      builder.append(getSVGShapeHelper(s) + "\n");
     }
 
     return builder.toString() + "\n</svg>";
@@ -156,4 +158,116 @@ public abstract class AAnimatorView extends JFrame implements IAnimatorView {
 
     return endTime;
   }
+
+  // gets svg for given shape
+  private String getSVGShapeHelper(IShape shape) {
+
+    StringBuilder builder = new StringBuilder();
+
+    String shapeInfo = "<" + shape.getSVGType() + " " + shape.getSVGPinhole()[0] + "=\""
+            + shape.getPos().getX() + "\" " + shape.getSVGPinhole()[1] + "=\"" + shape.getPos().getY() + "\" " + shape.getSVGSides()[0] + "=\""
+            + shape.getWidth() + "\" " + shape.getSVGSides()[1] + "=\"" + shape.getHeight() + "\" fill=\"rgb"
+            + shape.getRGB().convertTo256() + "\" visibility=\"visible\" >\n";
+
+    builder.append(shapeInfo);
+
+    for (IAnimation a : shape.getAnimations()) {
+
+      builder.append(getSVGAnimationHelper(a, shape));
+
+    }
+
+    if (isLooping()) {
+
+      builder.append("<animate attributeType=\"xml\" begin=\"base.end-1ms\" dur=\"1ms\" " +
+              "attributeName=\"fill\" to=\"rgb" + shape.getOriginal().getRGB().convertTo256()
+              + "\" fill=\"freeze\" />\n");
+
+      builder.append("<animate attributeType=\"xml\" begin=\"base.end-1ms\" dur=\"1ms\" "
+              + "attributeName=\"" + shape.getOriginal().getSVGPinhole()[0] + "\" to=\""
+              + shape.getOriginal().getPos().getX()
+              + "\" fill=\"freeze\" />\n");
+
+      builder.append("<animate attributeType=\"xml\" begin=\"base.end-1ms\" dur=\"1ms\" "
+              + "attributeName=\"" + shape.getOriginal().getSVGPinhole()[1] + "\" to=\""
+              + shape.getOriginal().getPos().getY()
+              + "\" fill=\"freeze\" />\n");
+
+      builder.append("<animate attributeName=\"" + shape.getOriginal().getSVGSides()[0]
+              + "\" attributeType=\"XML\" "
+              + "begin=\"base.end-1ms\" dur=\"1ms\" fill=\"freeze\" to=\""
+              + shape.getOriginal().getWidth() + "\" />\n");
+
+      builder.append("<animate attributeName=\"" + shape.getOriginal().getSVGSides()[1]
+              + "\" attributeType=\"XML\" "
+              + "begin=\"base.end-1ms\" dur=\"1ms\" fill=\"freeze\" to=\""
+              + shape.getOriginal().getHeight() + "\" />\n");
+
+
+
+    }
+
+
+    return builder.toString() + "</" + shape.getSVGType() + ">\n";
+
+  }
+
+  // gets svg for given animation
+  private String getSVGAnimationHelper(IAnimation animation, IShape shape) {
+
+    double begin = animation.getStartTime() / ticksPerSecond;
+    double dur = (animation.getEndTime() / ticksPerSecond) - begin;
+    String loopingPart = Double.toString(begin);
+
+    if (isLooping()) {
+      loopingPart = "base.begin+" + begin;
+    }
+
+    if (animation.getSVGType().equals("move")) {
+
+      String result = "<animate attributeName=\"" + shape.getSVGPinhole()[0]
+              + "\" attributeType=\"XML\" begin=\""
+              + loopingPart + "s\" dur=\"" + dur + "s\" fill=\"freeze\" from=\""
+              + animation.getSVGStart() + "\" to=\""
+              + animation.getSVGEnd() + "\" />\n"
+
+              + "<animate attributeName=\"" + shape.getSVGPinhole()[1]
+              + "\" attributeType=\"XML\" begin=\""
+              + loopingPart + "s\" dur=\"" + dur + "s\" fill=\"freeze\" from=\""
+              + animation.getSVGStart2() + "\" to=\""
+              + animation.getSVGEnd2() + "\" />\n";
+
+      return result;
+
+    }
+    else if (animation.getSVGType().equals("scale")) {
+
+      String result = "<animate attributeName=\"" + shape.getSVGSides()[0]
+              + "\" attributeType=\"XML\" begin=\""
+              + loopingPart + "s\" dur=\"" + dur + "s\" fill=\"freeze\" from=\""
+              + animation.getSVGStart() + "\" to=\""
+              + animation.getSVGEnd() + "\" />\n"
+
+              + "<animate attributeName=\"" + shape.getSVGSides()[1]
+              + "\" attributeType=\"XML\" begin=\""
+              + loopingPart + "s\" dur=\"" + dur + "s\" fill=\"freeze\" from=\""
+              + animation.getSVGStart2() + "\" to=\""
+              + animation.getSVGEnd2() + "\" />\n";
+
+      return result;
+
+    }
+
+
+    String result = "<animate attributeName=\"" + animation.getSVGType() + "\" attributeType=\"XML\" begin=\""
+            + loopingPart + "s\" dur=\"" + dur + "s\" fill=\"freeze\" from=\""
+            + animation.getSVGStart() + "\" to=\""
+            + animation.getSVGEnd() + "\" />\n";
+
+    return result;
+
+  }
+
+
+
 }

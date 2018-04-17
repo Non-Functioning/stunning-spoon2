@@ -50,4 +50,36 @@ public interface IAnimation {
    * @return a description of animation in svg format
    */
   String getSVG(IShape shape, double ticksPerSecond, boolean isLooping);
+
+  /**
+   * Returns svg attribute name.
+   * @return the attribute name
+   */
+  String getSVGType();
+
+  /**
+   * Returns the start value for svg.
+   * @return the start value
+   */
+  String getSVGStart();
+
+  /**
+   * Returns the end value for svg.
+   * @return the end value
+   */
+  String getSVGEnd();
+
+  /**
+   * Returns the 2nd start value for svg if there is one.
+   * @return the start value
+   */
+  String getSVGStart2();
+
+  /**
+   * Returns the 2nd end value for svg if there is one.
+   * @return the end value
+   */
+  String getSVGEnd2();
+
+
 }

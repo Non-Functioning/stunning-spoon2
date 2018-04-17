@@ -2,10 +2,10 @@ package cs3500.animator.view;
 
 import java.io.IOException;
 
+import cs3500.animator.adapters.ControllerAdapter;
 import cs3500.animator.controller.Controller;
 import cs3500.animator.model.SimpleAnimationModel;
 import cs3500.animator.provider.view.HybridView;
-import cs3500.animator.provider.view.IAnimatorView;
 
 /**
  * This class represents a factory of views. It takes in a view type
@@ -49,11 +49,12 @@ public class ViewCreator {
           new Controller(model, view);
         }
         break;
-
       case PROVIDER:
+        //cs3500.animator.provider.controller.IController controller
+        //        = new ControllerAdapter(model, new HybridView());
+        //controller.run(output, tempo);
         new HybridView();
         break;
-
       default:
         throw new IllegalArgumentException("Invalid view type");
     }

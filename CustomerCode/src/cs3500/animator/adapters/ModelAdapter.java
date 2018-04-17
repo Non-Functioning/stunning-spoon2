@@ -40,7 +40,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public String getDescription() {
-    return null;
+    return this.printAnimation();
   }
 
   /**
