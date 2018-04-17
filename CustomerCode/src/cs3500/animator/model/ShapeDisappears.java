@@ -16,5 +16,6 @@ public class ShapeDisappears extends Animations {
     this.color1 = shape.getInitialColor();
     this.sizeParams1 = shape.getInitialSize();
     this.time1 = time1;
+    this.time2 = time1;
   }
 }

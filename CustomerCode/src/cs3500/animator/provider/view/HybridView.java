@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 
 import cs3500.animator.model.Position2D;
 import cs3500.animator.provider.hw5.shapes.IShape;
-import cs3500.animator.view.AnimationPanel;
 
 /**
  * This is an implementation of the IAnimatorView interface that uses Java Swing to draw the

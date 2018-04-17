@@ -63,7 +63,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
     for (int i = 0; i < model.getShapes().size(); i++) {
       if ((model.getShapes().get(i).getAppearTime() >= t)
               & (model.getShapes().get(i).getDisappearT() <= t)) {
-        iShapes.add(new ShapeAdapter(model.getShapes().get(i)));
+        iShapes.add(new ShapeAdapter(model, model.getShapes().get(i)));
       }
     }
     return iShapes;
