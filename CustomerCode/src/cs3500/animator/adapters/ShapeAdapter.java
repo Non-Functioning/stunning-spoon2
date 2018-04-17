@@ -8,7 +8,6 @@ import cs3500.animator.model.IAnimatedShape;
 import cs3500.animator.model.IPosition2D;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
-import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
@@ -127,7 +126,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
+    return new Position2D(this.initialPosition.getX(), this.initialPosition.getY());
   }
 
   /**
@@ -145,14 +144,12 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
     }
     if (animations.isEmpty()) {
       animations.add(animation);
-    }
-    else {
+    } else {
       for (int i = 0; i < animations.size(); i++) {
         if (animation.getStartTime() <= animations.get(i).getStartTime()) {
           animations.add(i, animation);
           break;
-        }
-        else if (i == (animations.size() - 1)) {
+        } else if (i == (animations.size() - 1)) {
           animations.add(animation);
           break;
         }
@@ -201,6 +198,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Creates an SVG description for this shape and its animations.
+   *
    * @return an SVG formatted description of this shape
    */
   @Override
@@ -210,12 +208,13 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Applies a given visitor to this shape.
+   *
    * @param visitor a shape visitor to be applied to this shape.
    * @return result of application the given visitor to this shape.
    */
   @Override
   public <T> T accept(IShapeVisitor<T> visitor) {
-    switch(this.getShapeType()){
+    switch (this.getShapeType()) {
       case RECTANGLE:
         return visitor.visitRectangle(this);
       case OVAL:
@@ -247,16 +246,19 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String[] getSVGPinhole() {
-    return new String[0];
+    String[] pinhole = {"a", "b"};
+    return pinhole;
   }
 
   @Override
   public String[] getSVGSides() {
-    return new String[0];
+    String[] sides = {"c", "d"};
+    return sides;
   }
 
   /**
    * Returns the time that this shape should disappear.
+   *
    * @return the disappear time.
    */
   @Override
@@ -271,7 +273,16 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   @Override
   public String getSVGType() {
-    return null;
+    switch (this.getShapeType()) {
+      case OVAL:
+        return "ellipse";
+
+      case RECTANGLE:
+        return "rect";
+
+      default:
+        throw new IllegalArgumentException("No such shape type.");
+    }
   }
 
   /**
