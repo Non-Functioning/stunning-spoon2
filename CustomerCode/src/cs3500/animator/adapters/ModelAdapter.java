@@ -1,18 +1,20 @@
 package cs3500.animator.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.animator.model.IAnimatedShape;
-import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.SimpleAnimation;
+import cs3500.animator.model.SimpleAnimationModel;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 import cs3500.animator.provider.model.IEasyAnimatorModel;
 
 public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel {
+  SimpleAnimationModel model;
 
-  public ModelAdapter() {
+  public ModelAdapter(SimpleAnimationModel model) {
     super();
+    this.model = model;
   }
   /**
    * Add a new shape to keep track of in the model.
@@ -21,7 +23,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addShape(IShape shape) {
-    this.copyShape((IAnimatedShape) shape);
+    //model.createShape();
   }
 
   /**
@@ -34,7 +36,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addAnimation(IAnimation animation, int shapeIndex) throws IllegalArgumentException {
-    this.copyAnimation((IAnimations) animation);
+    //this.copyAnimation(animation);
   }
 
   /**
@@ -46,7 +48,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public String getDescription() {
-    return this.printAnimation();
+    return model.printAnimation();
   }
 
   /**
@@ -57,6 +59,13 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public List<IShape> getStateAtTime(int t) {
-    return null;
+    List<IShape> iShapes = new ArrayList<>();
+    for (int i = 0; i < model.getShapes().size(); i++) {
+      if ((model.getShapes().get(i).getAppearTime() >= t)
+              & (model.getShapes().get(i).getDisappearT() <= t)) {
+        iShapes.add(new ShapeAdapter(model.getShapes().get(i)));
+      }
+    }
+    return iShapes;
   }
 }

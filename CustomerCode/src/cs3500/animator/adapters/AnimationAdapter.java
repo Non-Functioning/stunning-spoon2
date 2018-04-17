@@ -57,7 +57,7 @@ public class AnimationAdapter implements IAnimation {
    */
   @Override
   public IShape shapeAtTime(int t, IShape curShape) {
-    ShapeType shapeType;
+    /*ShapeType shapeType;
     InterfaceRGB color = curShape.getRGB();
     IPosition2D pos = curShape.getPos();
     List<Double> size = new ArrayList<>();
@@ -128,7 +128,8 @@ public class AnimationAdapter implements IAnimation {
 
     IShape shape = new ShapeAdapter(curShape.getName(), shapeType, color, pos, size,
             getStartTime(), getEndTime());
-    return shape;
+    return shape;*/
+    return null;
   }
 
   /**

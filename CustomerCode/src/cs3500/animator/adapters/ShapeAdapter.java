@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
+import cs3500.animator.model.IAnimatedShape;
 import cs3500.animator.model.IPosition2D;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
@@ -15,13 +16,14 @@ import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
   private List<IAnimation> animations;
+  private IAnimatedShape shape;
 
-  public ShapeAdapter(String shapeName, ShapeType shapeType, InterfaceRGB initialColor,
-                      IPosition2D initialPosition, List<Double> size, Integer appearTime,
-                      Integer disappearTime) {
-    super(shapeName, shapeType, new RGB(initialColor.getRed(), initialColor.getGreen(),
-                    initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
+  public ShapeAdapter(IAnimatedShape shape) {
+    super(shape.getShapeName(), shape.getShapeType(), shape.getInitialColor(),
+            shape.getInitialPosition(), shape.getInitialSize(), shape.getAppearTime(),
+            shape.getDisappearT());
     animations = new ArrayList<>();
+    this.shape = shape;
   }
 
   /**
@@ -193,9 +195,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
       a = animations.get(i);
     }
 
-
-    IShape shape = new ShapeAdapter(this.shapeName, this.shapeType, color, pos, size, appearTime,
-            disappearTime);
+    IShape shape = new ShapeAdapter(this.shape);
     return shape;
   }
 
@@ -266,8 +266,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   @Override
   public IShape getOriginal() {
-    return new ShapeAdapter(this.shapeName, this.shapeType, this.getRGB(), this.initialPosition,
-            this.initialSize, this.appearTime, this.disappearTime);
+    return new ShapeAdapter(this.shape);
   }
 
   @Override

@@ -264,4 +264,10 @@ public class AnimationViewTests {
     EasyAnimator.main(args);
     Thread.sleep(300000);
   }
+
+  @Test
+  public void testProviderText() throws IOException {
+    String[] args = {"-if", "buildings.txt", "-iv", "text2", "-o", "hello.txt", "-speed", "10"};
+    EasyAnimator.main(args);
+  }
 }
