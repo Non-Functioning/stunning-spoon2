@@ -177,27 +177,72 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGType() {
-    return null;
+    switch (this.type) {
+      case MOVE:
+        return "move";
+
+      case CHANGESIZE:
+        return "scale";
+
+      default:
+        throw new IllegalArgumentException("Wrong SVG type request.");
+    }
   }
 
   @Override
   public String getSVGStart() {
-    return null;
+    switch (this.type) {
+      case MOVE:
+        return super.getPosition1().getX().toString();
+
+      case CHANGESIZE:
+        return super.getSizeParams1().get(0).toString();
+
+      default:
+        throw new IllegalArgumentException("Wrong SVG type request.");
+    }
   }
 
   @Override
   public String getSVGEnd() {
-    return null;
+    switch (this.type) {
+      case MOVE:
+        return super.getPosition2().getX().toString();
+
+      case CHANGESIZE:
+        return super.getSizeParams2().get(0).toString();
+
+      default:
+        throw new IllegalArgumentException("Wrong SVG type request.");
+    }
   }
 
   @Override
   public String getSVGStart2() {
-    return null;
+    switch (this.type) {
+      case MOVE:
+        return super.getPosition1().getY().toString();
+
+      case CHANGESIZE:
+        return super.getSizeParams1().get(1).toString();
+
+      default:
+        throw new IllegalArgumentException("Wrong SVG type request.");
+    }
   }
 
   @Override
   public String getSVGEnd2() {
-    return null;
+    switch (this.type) {
+      case MOVE:
+        return super.getPosition2().getY().toString();
+
+      case CHANGESIZE:
+        return super.getSizeParams2().get(1).toString();
+
+      default:
+        throw new IllegalArgumentException("Wrong SVG type request.");
+    }
   }
 
   /**
@@ -208,7 +253,7 @@ public class AnimationAdapter extends Animations implements IAnimation {
    * @param finalVal  final value
    * @param initTick  time of initial value
    * @param finalTick time of final value
-   * @param tick  current time
+   * @param tick      current time
    * @return value at current time
    */
   private Double calcTweening(Double initVal, Double finalVal, Integer initTick,
