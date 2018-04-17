@@ -210,12 +210,11 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
   public <T> T accept(IShapeVisitor<T> visitor) {
     switch(this.getShapeType()){
       case RECTANGLE:
-        visitor.visitRectangle(this);
-        break;
-
+        return visitor.visitRectangle(this);
       case OVAL:
-        visitor.visitOval(this);
-        break;
+        return visitor.visitOval(this);
+      default:
+        throw new IllegalArgumentException("Invalid shape type");
     }
   }
 
