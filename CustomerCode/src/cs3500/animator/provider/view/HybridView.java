@@ -43,7 +43,7 @@ public class HybridView extends AAnimatorView {
     super();
 
     this.setTitle("Animation");
-    this.setSize(500,500);
+    this.setSize(500, 500);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     this.setLayout(new BorderLayout());
@@ -95,7 +95,7 @@ public class HybridView extends AAnimatorView {
 
     // add panels to this view
     JPanel centerPanel = new JPanel(new BorderLayout());
-    JScrollPane jScrollPane  = new JScrollPane(this.animationPanel);
+    JScrollPane jScrollPane = new JScrollPane(this.animationPanel);
     jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     centerPanel.add(jScrollPane);
@@ -107,6 +107,7 @@ public class HybridView extends AAnimatorView {
 
   /**
    * Constructor to construct a hybrid view with looping on or off at the start.
+   *
    * @param isLooping a parameter that is true if this animation is looping
    */
   public HybridView(boolean isLooping) {
@@ -158,7 +159,7 @@ public class HybridView extends AAnimatorView {
 
     // traverse the list of shapes from the end and if you find a shape that has a point within it,
     // mark flag as true and remember the index
-    for (int i = index - 1; i >= 0 ; i -= 1) {
+    for (int i = index - 1; i >= 0; i -= 1) {
       IShape shape = shapes.get(i);
       if (shape.isPointWithinShape(point)) {
         index = i;

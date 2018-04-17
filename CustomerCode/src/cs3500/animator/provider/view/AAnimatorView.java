@@ -46,7 +46,7 @@ public abstract class AAnimatorView extends JFrame implements IAnimatorView {
 
   @Override
   public void showErrorMsg(String error) {
-    JOptionPane.showMessageDialog(this, error,"Error",
+    JOptionPane.showMessageDialog(this, error, "Error",
             JOptionPane.ERROR_MESSAGE);
   }
 
