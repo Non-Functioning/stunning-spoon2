@@ -59,4 +59,9 @@ public class RGBAdapter implements InterfaceRGB {
   public int hashCode() {
     return rgb.hashCode();
   }
+
+  @Override
+  public String convertTo256() {
+    return rgb.toStringSVG();
+  }
 }
