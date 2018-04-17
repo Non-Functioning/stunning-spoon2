@@ -1,24 +1,16 @@
 package cs3500.animator.adapters;
 
-import java.util.List;
-
 import cs3500.animator.model.Animations;
-import cs3500.animator.model.ChangeShapeColor;
-import cs3500.animator.model.ChangeShapeSize;
 import cs3500.animator.model.IAnimations;
-import cs3500.animator.model.MoveShape;
-import cs3500.animator.model.ShapeAppears;
-import cs3500.animator.model.ShapeDisappears;
-import cs3500.animator.model.StillShape;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
-public class AnimationAdapter implements IAnimation {
+public class AnimationAdapter extends Animations implements IAnimation {
   private IAnimations animations;
 
   AnimationAdapter(IAnimations iAnimations) {
     this.animations = iAnimations;
-    /*switch (animations.getType()) {
+    /*switch (animations.getAnimateType()) {
       case MOVE:
         this.animations = new MoveShape(animations.getChangedShape(), animations.getPosition1(),
                 animations.getPosition2(), animations.getTime1(), animations.getTime2());
@@ -63,7 +55,7 @@ public class AnimationAdapter implements IAnimation {
     //int i = 0;
     //IAnimation a = curShape.getAnimations().get(i);
     //while (a.getStartTime() <= t) {
-      switch (animations.getType()) {
+      switch (animations.getAnimateType()) {
         case MOVE:
           if (animations.getTime2() > t) {
             double x = calcTweening(pos.getX(), animations.getPosition2().getX(), getStartTime(),
@@ -111,7 +103,7 @@ public class AnimationAdapter implements IAnimation {
       //a = curShape.getAnimations().get(i);
     //}
 
-    switch (curShape.getType()) {
+    switch (curShape.getAnimateType()) {
       case "rectangle":
         shapeType = ShapeType.RECTANGLE;
         break;
@@ -138,7 +130,7 @@ public class AnimationAdapter implements IAnimation {
 
   @Override
   public String getType() {
-    return animations.getType().toString();
+    return animations.getAnimateType().toString();
   }
 
   /**

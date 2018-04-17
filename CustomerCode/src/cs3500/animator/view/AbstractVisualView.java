@@ -153,7 +153,7 @@ public abstract class AbstractVisualView extends AbstractView {
    * @param time      time of draw
    */
   private void singleAnimationChange(IAnimations animation, int time) {
-    switch (animation.getType()) {
+    switch (animation.getAnimateType()) {
       case MOVE:
         xPosition.add(calcTweening(animation.getPosition1().getX(),
                 animation.getPosition2().getX(), animation.getTime1(), animation.getTime2(),

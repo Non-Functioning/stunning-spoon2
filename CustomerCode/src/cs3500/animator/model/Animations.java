@@ -30,7 +30,7 @@ public class Animations implements IAnimations {
   }
 
   @Override
-  public AnimateTypes getType() {
+  public AnimateTypes getAnimateType() {
     return type;
   }
 

@@ -74,7 +74,7 @@ public class SVGView extends AbstractView {
    * @return The string that represents a single animation that belongs to a shape.
    */
   private String animate(IAnimations ani) {
-    switch (ani.getType()) {
+    switch (ani.getAnimateType()) {
       case MOVE:
         return "<animateMotion path=\"M " + (ani.getPosition1().getX()
                 - ani.getChangedShape().getInitialPosition().getX()) + " "

@@ -15,7 +15,7 @@ public interface IAnimations {
 
   Integer getTime2();
 
-  AnimateTypes getType();
+  AnimateTypes getAnimateType();
 
   IAnimatedShape getChangedShape();
 

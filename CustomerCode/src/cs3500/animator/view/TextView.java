@@ -64,8 +64,8 @@ public class TextView extends AbstractView {
     }
 
     for (int i = 0; i < animations.size(); i++) {
-      if (animations.get(i).getType() != AnimateTypes.APPEAR
-              && animations.get(i).getType() != AnimateTypes.DISAPPEAR) {
+      if (animations.get(i).getAnimateType() != AnimateTypes.APPEAR
+              && animations.get(i).getAnimateType() != AnimateTypes.DISAPPEAR) {
         animationString.append(animationToString(i));
         if (i != (animations.size() - 1)) {
           animationString.append("\n");
@@ -105,7 +105,7 @@ public class TextView extends AbstractView {
 
     StringBuilder newString = new StringBuilder("Shape " + currentAnimations.getChangedShape()
             .getShapeName());
-    switch (currentAnimations.getType()) {
+    switch (currentAnimations.getAnimateType()) {
       case MOVE:
         newString.append(" moves from ");
         newString.append(currentAnimations.getPosition1().toString());

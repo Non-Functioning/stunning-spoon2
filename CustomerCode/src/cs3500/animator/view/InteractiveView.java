@@ -235,8 +235,8 @@ public class InteractiveView extends AbstractVisualView {
       dropdownDisplay.setText("Added to Subset: " + shapeName);
       for (int i = 0; i < animations.size(); i++) {
         if (animations.get(i).getChangedShape().getShapeName().equals(shapeName)
-                && (animations.get(i).getType() != AnimateTypes.APPEAR)
-                && (animations.get(i).getType() != AnimateTypes.DISAPPEAR)) {
+                && (animations.get(i).getAnimateType() != AnimateTypes.APPEAR)
+                && (animations.get(i).getAnimateType() != AnimateTypes.DISAPPEAR)) {
           subsetModel.copyAnimation(animations.get(i));
         }
       }

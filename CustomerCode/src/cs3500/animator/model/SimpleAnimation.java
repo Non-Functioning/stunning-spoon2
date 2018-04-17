@@ -237,8 +237,8 @@ public class SimpleAnimation implements SimpleAnimationModel {
     }
 
     for (int i = 0; i < animations.size(); i++) {
-      if (animations.get(i).getType() != AnimateTypes.APPEAR
-              && animations.get(i).getType() != AnimateTypes.DISAPPEAR) {
+      if (animations.get(i).getAnimateType() != AnimateTypes.APPEAR
+              && animations.get(i).getAnimateType() != AnimateTypes.DISAPPEAR) {
         animationString.append(animations.get(i).toString());
         if (i != (animations.size() - 1)) {
           animationString.append("\n");
@@ -275,7 +275,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
     Integer time2 = 0;
     for (int i = 0; i < timeline.get(time).size(); i++) {
       if (timeline.get(time).get(i).getChangedShape().equals(shape)
-              && timeline.get(time).get(i).getType().equals(type)) {
+              && timeline.get(time).get(i).getAnimateType().equals(type)) {
         time1 = timeline.get(time).get(i).getTime1();
         time2 = timeline.get(time).get(i).getTime2();
         break;
@@ -287,7 +287,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
     for (int j = time1; j <= time2; j++) {
       for (int k = 0; k < timeline.get(j).size(); k++) {
         if (timeline.get(j).get(k).getChangedShape().equals(shape)
-                && timeline.get(j).get(k).getType().equals(type)) {
+                && timeline.get(j).get(k).getAnimateType().equals(type)) {
           timeline.get(j).remove(k);
         }
       }
@@ -295,7 +295,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
 
     for (int i = 0; i < animations.size(); i++) {
       if (animations.get(i).getChangedShape().equals(shape)
-              && animations.get(i).getType().equals(type)
+              && animations.get(i).getAnimateType().equals(type)
               && (animations.get(i).getTime1().equals(time1))
               && (animations.get(i).getTime2().equals(time2))) {
         animations.remove(i);
@@ -358,7 +358,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == AnimateTypes.MOVE)) {
+                & (timeline.get(i).get(j).getAnimateType() == AnimateTypes.MOVE)) {
           return timeline.get(i).get(j).getPosition2();
         }
       }
@@ -380,7 +380,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == AnimateTypes.CHANGECOLOR)) {
+                & (timeline.get(i).get(j).getAnimateType() == AnimateTypes.CHANGECOLOR)) {
           return timeline.get(i).get(j).getColor2();
         }
       }
@@ -402,7 +402,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
     for (int i = time; i > -1; i--) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
         if ((timeline.get(i).get(j).getChangedShape() == shape)
-                & (timeline.get(i).get(j).getType() == AnimateTypes.CHANGESIZE)) {
+                & (timeline.get(i).get(j).getAnimateType() == AnimateTypes.CHANGESIZE)) {
           return timeline.get(i).get(j).getSizeParams2();
         }
       }
@@ -421,7 +421,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
   private boolean isValidAnimation(IAnimations animate) {
     for (int i = animate.getTime1(); i <= animate.getTime2(); i++) {
       for (int j = 0; j < timeline.get(i).size(); j++) {
-        if ((timeline.get(i).get(j).getType() == animate.getType())
+        if ((timeline.get(i).get(j).getAnimateType() == animate.getAnimateType())
                 && (animate.getChangedShape().equals(timeline.get(i).get(j).getChangedShape()))) {
           return false;
         }
@@ -466,7 +466,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       else {
         for (int j = 0; j < animations1.size(); j++) {
           if (animations1.get(j).getChangedShape().equals(obj.getChangedShape())) {
-            if (animations1.get(j).getType() == AnimateTypes.STILL) {
+            if (animations1.get(j).getAnimateType() == AnimateTypes.STILL) {
               animations1.remove(j);
             }
             animations1.add(j, obj);
@@ -494,7 +494,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setPosition1(currPosition);
-            if (timeline.get(j).get(k).getType() == AnimateTypes.MOVE) {
+            if (timeline.get(j).get(k).getAnimateType() == AnimateTypes.MOVE) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextPosition = timeline.get(j).get(k).getPosition2();
               }
@@ -507,7 +507,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setPosition1(currPosition);
-          if (animations.get(j).getType() == AnimateTypes.MOVE) {
+          if (animations.get(j).getAnimateType() == AnimateTypes.MOVE) {
             currPosition = animations.get(j).getPosition2();
           }
         }
@@ -533,7 +533,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setColor1(currColor);
-            if (timeline.get(j).get(k).getType() == AnimateTypes.CHANGECOLOR) {
+            if (timeline.get(j).get(k).getAnimateType() == AnimateTypes.CHANGECOLOR) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextColor = timeline.get(j).get(k).getColor2();
               }
@@ -546,7 +546,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setColor1(currColor);
-          if (animations.get(j).getType() == AnimateTypes.CHANGECOLOR) {
+          if (animations.get(j).getAnimateType() == AnimateTypes.CHANGECOLOR) {
             currColor = animations.get(j).getColor2();
           }
         }
@@ -571,7 +571,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
         for (int k = 0; k < timeline.get(j).size(); k++) {
           if (timeline.get(j).get(k).getChangedShape().equals(currShape)) {
             timeline.get(j).get(k).setSizeParams1(currSize);
-            if (timeline.get(j).get(k).getType() == AnimateTypes.CHANGESIZE) {
+            if (timeline.get(j).get(k).getAnimateType() == AnimateTypes.CHANGESIZE) {
               if (timeline.get(j).get(k).getTime2() == j) {
                 nextSize = timeline.get(j).get(k).getSizeParams2();
               }
@@ -584,7 +584,7 @@ public class SimpleAnimation implements SimpleAnimationModel {
       for (int j = 0; j < animations.size(); j++) {
         if (animations.get(j).getChangedShape().equals(currShape)) {
           animations.get(j).setSizeParams1(currSize);
-          if (animations.get(j).getType() == AnimateTypes.CHANGESIZE) {
+          if (animations.get(j).getAnimateType() == AnimateTypes.CHANGESIZE) {
             currSize = animations.get(j).getSizeParams2();
           }
         }
