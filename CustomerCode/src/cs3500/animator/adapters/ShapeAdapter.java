@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
-import cs3500.animator.model.IAnimations;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
 import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
+import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
-import javafx.geometry.Pos;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
   private List<IAnimation> animations;
@@ -256,7 +255,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public int getDisappearTime() {
-    return getDisappearTime();
+    return this.getDisappearTime();
   }
 
   /**
