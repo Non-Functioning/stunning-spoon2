@@ -20,7 +20,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
                       Position2D initialPosition, List<Double> size, Integer appearTime,
                       Integer disappearTime) {
     super(shapeName, type, new RGB(initialColor.getRed(), initialColor.getGreen(),
-                    initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
+            initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
   }
 
   /**
@@ -124,7 +124,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
+    return new Position2D(this.initialPosition.getX(), this.initialPosition.getY());
   }
 
   /**
@@ -153,6 +153,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Creates an SVG description for this shape and its animations.
+   *
    * @return an SVG formatted description of this shape
    */
   @Override
@@ -162,19 +163,23 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Applies a given visitor to this shape.
+   *
    * @param visitor a shape visitor to be applied to this shape.
    * @return result of application the given visitor to this shape.
    */
   @Override
   public <T> T accept(IShapeVisitor<T> visitor) {
-    switch(this.getShapeType()){
+    switch (this.getShapeType()) {
       case RECTANGLE:
-        visitor.visitRectangle(this);
-        break;
+        return visitor.visitRectangle(this);
+
 
       case OVAL:
-        visitor.visitOval(this);
-        break;
+        return visitor.visitOval(this);
+
+
+      default:
+        throw new IllegalArgumentException("Shape type does not exist.");
     }
   }
 
@@ -210,6 +215,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
 
   /**
    * Returns the time that this shape should disappear.
+   *
    * @return the disappear time.
    */
   @Override
