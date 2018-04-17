@@ -1,5 +1,7 @@
 package cs3500.animator.adapters;
 
+import java.awt.event.ActionEvent;
+
 import cs3500.animator.provider.controller.IController;
 import cs3500.animator.provider.model.IEasyAnimatorModel;
 import cs3500.animator.provider.view.IAnimatorView;
@@ -62,5 +64,9 @@ public class ControllerAdapter implements IController {
   @Override
   public boolean isPlaying() {
     return false;
+  }
+
+  private void action(ActionEvent e){
+
   }
 }
