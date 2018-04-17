@@ -10,6 +10,7 @@ import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
+import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
@@ -166,7 +167,15 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public <T> T accept(IShapeVisitor<T> visitor) {
-    return null;
+    switch(this.getShapeType()){
+      case RECTANGLE:
+        visitor.visitRectangle(this);
+        break;
+
+      case OVAL:
+        visitor.visitOval(this);
+        break;
+    }
   }
 
   /**
