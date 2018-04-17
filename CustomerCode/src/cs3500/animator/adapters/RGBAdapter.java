@@ -3,12 +3,13 @@ package cs3500.animator.adapters;
 import cs3500.animator.model.RGB;
 import cs3500.animator.provider.InterfaceRGB;
 
-public class RGBAdapter extends RGB implements InterfaceRGB {
+public class RGBAdapter implements InterfaceRGB {
+  private RGB rgb;
   /**
    * Initialize this object to the specified color.
    */
   public RGBAdapter(double red, double green, double blue) {
-    super(red, green, blue);
+    this.rgb = new RGB(red, green, blue);
   }
 
   /**
@@ -16,7 +17,7 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public double getRed() {
-    return super.getRed();
+    return rgb.getRed();
   }
 
   /**
@@ -24,7 +25,7 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public double getGreen() {
-    return super.getGreen();
+    return rgb.getGreen();
   }
 
   /**
@@ -32,7 +33,7 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public double getBlue() {
-    return super.getBlue();
+    return rgb.getBlue();
   }
 
   /**
@@ -40,7 +41,7 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public String toString() {
-    return super.toString();
+    return rgb.toString();
   }
 
   /**
@@ -48,7 +49,7 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public boolean equals(Object o) {
-    return super.equals(o);
+    return rgb.equals(o);
   }
 
   /**
@@ -56,6 +57,6 @@ public class RGBAdapter extends RGB implements InterfaceRGB {
    */
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return rgb.hashCode();
   }
 }

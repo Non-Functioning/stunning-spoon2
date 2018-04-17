@@ -5,6 +5,7 @@ import java.util.List;
 
 import cs3500.animator.model.AnimatedShape;
 import cs3500.animator.model.Position2D;
+import cs3500.animator.model.RGB;
 import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
@@ -13,11 +14,13 @@ import cs3500.animator.provider.hw5.shapes.visitor.DrawVisitor;
 import cs3500.animator.provider.hw5.shapes.visitor.IShapeVisitor;
 
 public class ShapeAdapter extends AnimatedShape implements IShape {
+  private List<IAnimation> animations;
 
-  public ShapeAdapter(String shapeName, ShapeType shape, InterfaceRGB initialColor,
+  public ShapeAdapter(String shapeName, ShapeType type, InterfaceRGB initialColor,
                       Position2D initialPosition, List<Double> size, Integer appearTime,
                       Integer disappearTime) {
-    super(shapeName, shape, initialColor, initialPosition, size, appearTime, disappearTime);
+    super(shapeName, type, new RGB(initialColor.getRed(), initialColor.getGreen(),
+                    initialColor.getBlue()), initialPosition, size, appearTime, disappearTime);
   }
 
   /**
@@ -38,7 +41,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public void setRGB(InterfaceRGB rgb) {
-
+    this.initialColor = new RGB(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
   }
 
   /**
@@ -48,7 +51,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public void setPos(Position2D pos) {
-
+    this.initialPosition = pos;
   }
 
   /**
@@ -56,7 +59,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String getAnimDesc() {
-    return null;
+    return this.toString();
   }
 
   /**
@@ -64,7 +67,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String getType() {
-    return getShapeType().toString();
+    return this.getShapeType().toString();
   }
 
   /**
@@ -72,7 +75,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String getReference() {
-    return getRefPoint().toString();
+    return this.getRefPoint().toString();
   }
 
   /**
@@ -80,7 +83,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String getDimensionsDesc() {
-    return null;
+    return sizeParamsToString(this.getInitialSize());
   }
 
   /**
@@ -90,7 +93,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public double getWidth() {
-    return initialSize.get(0);
+    return this.initialSize.get(0);
   }
 
   /**
@@ -100,7 +103,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public double getHeight() {
-    return initialSize.get(1);
+    return this.initialSize.get(1);
   }
 
   /**
@@ -110,7 +113,8 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public InterfaceRGB getRGB() {
-    return null;
+    return new RGBAdapter(this.initialColor.getRed(), this.initialColor.getGreen(),
+            this.initialColor.getBlue());
   }
 
   /**
@@ -120,7 +124,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return null;
+    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
   }
 
   /**
