@@ -177,13 +177,11 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGType() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return "move";
-
       case CHANGESIZE:
         return "scale";
-
       default:
         throw new IllegalArgumentException("Wrong SVG type request.");
     }
@@ -191,13 +189,11 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGStart() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return super.getPosition1().getX().toString();
-
       case CHANGESIZE:
         return super.getSizeParams1().get(0).toString();
-
       default:
         throw new IllegalArgumentException("Wrong SVG type request.");
     }
@@ -205,7 +201,7 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGEnd() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return super.getPosition2().getX().toString();
 
@@ -219,7 +215,7 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGStart2() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return super.getPosition1().getY().toString();
 
@@ -233,7 +229,7 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGEnd2() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return super.getPosition2().getY().toString();
 

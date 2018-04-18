@@ -112,7 +112,7 @@ public class AnimationViewTests {
 
   @Test
   public void testSVG() throws IOException {
-    String[] args = {"-if", "smalldemo.txt", "-iv", "svg", "-o", "out", "-speed", "20"};
+    String[] args = {"-if", "smalldemo.txt", "-iv", "svg2", "-o", "out", "-speed", "20"};
     EasyAnimator.main(args);
     assertEquals("<!DOCTYPE html>\n" +
             "<html>\n" +
@@ -253,7 +253,7 @@ public class AnimationViewTests {
 
   @Test
   public void testVisual() throws IOException, InterruptedException {
-    String[] args = {"-if", "smalldemo.txt", "-iv", "visual2", "-o", "out", "-speed", "20"};
+    String[] args = {"-if", "smalldemo.txt", "-iv", "visual2", "-o", "out", "-speed", "40"};
     EasyAnimator.main(args);
     Thread.sleep(30000);
   }
