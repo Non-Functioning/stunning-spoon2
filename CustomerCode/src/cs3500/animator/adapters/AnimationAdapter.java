@@ -5,6 +5,9 @@ import cs3500.animator.model.IAnimations;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
+import static cs3500.animator.model.enums.AnimateTypes.CHANGESIZE;
+import static cs3500.animator.model.enums.AnimateTypes.MOVE;
+
 public class AnimationAdapter extends Animations implements IAnimation {
   private IAnimations animations;
 
@@ -177,7 +180,7 @@ public class AnimationAdapter extends Animations implements IAnimation {
 
   @Override
   public String getSVGType() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
         return "move";
 
@@ -185,63 +188,63 @@ public class AnimationAdapter extends Animations implements IAnimation {
         return "scale";
 
       default:
-        throw new IllegalArgumentException("Wrong SVG type request.");
+        return "";
     }
   }
 
   @Override
   public String getSVGStart() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
-        return super.getPosition1().getX().toString();
+        return animations.getPosition1().getX().toString();
 
       case CHANGESIZE:
-        return super.getSizeParams1().get(0).toString();
+        return animations.getSizeParams1().get(0).toString();
 
       default:
-        throw new IllegalArgumentException("Wrong SVG type request.");
+        return "";
     }
   }
 
   @Override
   public String getSVGEnd() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
-        return super.getPosition2().getX().toString();
+        return animations.getPosition2().getX().toString();
 
       case CHANGESIZE:
-        return super.getSizeParams2().get(0).toString();
+        return animations.getSizeParams2().get(0).toString();
 
       default:
-        throw new IllegalArgumentException("Wrong SVG type request.");
+        return "";
     }
   }
 
   @Override
   public String getSVGStart2() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
-        return super.getPosition1().getY().toString();
+        return animations.getPosition1().getY().toString();
 
       case CHANGESIZE:
-        return super.getSizeParams1().get(1).toString();
+        return animations.getSizeParams1().get(1).toString();
 
       default:
-        throw new IllegalArgumentException("Wrong SVG type request.");
+        return "";
     }
   }
 
   @Override
   public String getSVGEnd2() {
-    switch (this.type) {
+    switch (animations.getAnimateType()) {
       case MOVE:
-        return super.getPosition2().getY().toString();
+        return animations.getPosition2().getY().toString();
 
       case CHANGESIZE:
-        return super.getSizeParams2().get(1).toString();
+        return animations.getSizeParams2().get(1).toString();
 
       default:
-        throw new IllegalArgumentException("Wrong SVG type request.");
+        return "";
     }
   }
 
