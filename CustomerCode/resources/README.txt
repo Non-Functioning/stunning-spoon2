@@ -48,7 +48,7 @@ characteristics at a given time.
 The last view is the SVGView. This view returns a String that correlates to an SVG file that can
 be run in a browser to see the animation.
 
-//MOST RECENT CHANGES FOR ASSIGNMENT 7
+//CHANGES FOR ASSIGNMENT 7
 In assignment 7, a few changes were made to the model. These changes were done to add appear and
 disappear animations to the animations List. This was done in order for the SVG view to easily
 access these animations and fix a bug where the svg had incorrect overlapping shapes.
@@ -75,3 +75,12 @@ there are two buttons for exporting to a SVG file. One exports the subset and th
 the entire animation. If there was a file name specified in the command line, the file will export
 to there. Otherwise, a dialog box will pop up asking for the user to input a file name to export
 the SVG view to.
+
+//CHANGES FOR ASSIGNMENT 8
+We made a few changes for our customers. These included moving all enumerations to their own files
+and then moving those files to a package within the model. We also added interfaces for the RGB
+class and the Position2D class so that the model used the interfaces.
+
+With our providers views, we were able to get the textual and svg views to work. The visual view
+opens a window and draws shapes but the shapes are drawn incorrectly and the tempo does no change.
+Also the hybrid few does not work at all.
