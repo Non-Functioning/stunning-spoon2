@@ -11,7 +11,6 @@ import cs3500.animator.model.IRGB;
 import cs3500.animator.model.Position2D;
 import cs3500.animator.model.RGB;
 import cs3500.animator.model.SimpleAnimationModel;
-import cs3500.animator.model.enums.ShapeType;
 import cs3500.animator.provider.InterfaceRGB;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
@@ -137,7 +136,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public Position2D getPos() {
-    return new Position2D(this.initialPosition.getX(),this.initialPosition.getY());
+    return new Position2D(this.initialPosition.getX(), this.initialPosition.getY());
   }
 
   /**
@@ -284,14 +283,34 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    */
   @Override
   public String[] getSVGPinhole() {
-    String[] pinhole = {"a", "b"};
-    return pinhole;
+    switch (this.shapeType) {
+      case RECTANGLE:
+        String[] pinhole = {"x", "y"};
+        return pinhole;
+
+      case OVAL:
+        String[] pinhole2 = {"cx", "cy"};
+        return pinhole2;
+
+      default:
+        throw new IllegalArgumentException("Wrong shape type.");
+    }
   }
 
   @Override
   public String[] getSVGSides() {
-    String[] sides = {"c", "d"};
-    return sides;
+    switch (this.shapeType) {
+      case RECTANGLE:
+        String[] sides = {"width", "height"};
+        return sides;
+
+      case OVAL:
+        String[] sides2 = {"rx", "ry"};
+        return sides2;
+
+      default:
+        throw new IllegalArgumentException("Wrong shape type.");
+    }
   }
 
   /**
@@ -360,7 +379,7 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
    * @param finalVal  final value
    * @param initTick  time of initial value
    * @param finalTick time of final value
-   * @param tick  current time
+   * @param tick      current time
    * @return value at current time
    */
   private Double calcTweening(Double initVal, Double finalVal, Integer initTick,
