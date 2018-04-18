@@ -287,11 +287,9 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
       case RECTANGLE:
         String[] pinhole = {"x", "y"};
         return pinhole;
-
       case OVAL:
         String[] pinhole2 = {"cx", "cy"};
         return pinhole2;
-
       default:
         throw new IllegalArgumentException("Wrong shape type.");
     }
@@ -303,11 +301,9 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
       case RECTANGLE:
         String[] sides = {"width", "height"};
         return sides;
-
       case OVAL:
         String[] sides2 = {"rx", "ry"};
         return sides2;
-
       default:
         throw new IllegalArgumentException("Wrong shape type.");
     }
@@ -333,10 +329,8 @@ public class ShapeAdapter extends AnimatedShape implements IShape {
     switch (this.getShapeType()) {
       case OVAL:
         return "ellipse";
-
       case RECTANGLE:
         return "rect";
-
       default:
         throw new IllegalArgumentException("No such shape type.");
     }

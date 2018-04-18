@@ -23,7 +23,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addShape(IShape shape) {
-    //model.createShape();
+    //Do Nothing
   }
 
   /**
@@ -36,7 +36,7 @@ public class ModelAdapter extends SimpleAnimation implements IEasyAnimatorModel 
    */
   @Override
   public void addAnimation(IAnimation animation, int shapeIndex) throws IllegalArgumentException {
-    //this.copyAnimation(animation);
+    //Do Nothing
   }
 
   /**

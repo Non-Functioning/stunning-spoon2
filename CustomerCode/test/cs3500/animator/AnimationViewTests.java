@@ -112,7 +112,7 @@ public class AnimationViewTests {
 
   @Test
   public void testSVG() throws IOException {
-    String[] args = {"-if", "smalldemo.txt", "-iv", "svg2", "-o", "out", "-speed", "20"};
+    String[] args = {"-if", "smalldemo.txt", "-iv", "svg", "-o", "out", "-speed", "20"};
     EasyAnimator.main(args);
     assertEquals("<!DOCTYPE html>\n" +
             "<html>\n" +
@@ -248,26 +248,6 @@ public class AnimationViewTests {
   @Test(expected = IllegalStateException.class)
   public void testIllegalStatetException() throws IOException {
     String[] args = {"-if", "invalid-shape.txt", "-iv", "svg", "-o", "out", "-speed", "20"};
-    EasyAnimator.main(args);
-  }
-
-  @Test
-  public void testVisual() throws IOException, InterruptedException {
-    String[] args = {"-if", "smalldemo.txt", "-iv", "visual2", "-o", "out", "-speed", "40"};
-    EasyAnimator.main(args);
-    Thread.sleep(30000);
-  }
-
-  @Test
-  public void testInteractive() throws IOException, InterruptedException {
-    String[] args = {"-if", "buildings.txt", "-iv", "interactive", "-o", "out", "-speed", "10"};
-    EasyAnimator.main(args);
-    Thread.sleep(300000);
-  }
-
-  @Test
-  public void testProviderText() throws IOException {
-    String[] args = {"-if", "buildings.txt", "-iv", "text2", "-o", "hello.txt", "-speed", "10"};
     EasyAnimator.main(args);
   }
 }

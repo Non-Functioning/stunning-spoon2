@@ -1,0 +1,41 @@
+Design Critique
+Our provider’s design for this assignment was very different from our own. While we had a List
+of animations that held shapes, they had a List of shapes that each held its animations. Some
+of the things we thought were good about their design was the use of visitor to draw shapes and
+the methods used to return a shape with its correct parameters at any time. Using a visitor to
+visit and draw shapes was a simple and straightforward approach to drawing. Also, the model,
+shape, and animation interfaces all provided methods that would return itself at a given tick
+in time. While this was difficult to implement ourselves since we did not have this functionality
+in our own model, it provided an easier way to access shapes to draw in the visual and hybrid
+views. A few things we asked the providers to change was to create and use interfaces for their
+RGB and Position2D classes. They provided us these interfaces which we were able to adapt to
+our own classes.
+
+Implementation Critique
+While working with the code, we realized that a lot of functionality was placed in the wrong part
+of the MVC. For instance, the SVG view worked by calling methods from the shape classes that
+returned itself as a SVG string. This made is difficult to create the view as we had to implement
+methods in the shape’s and animation’s interfaces that returned SVG strings which we did not have
+in our own model. Placing this functionality directly in the SVGAnimationView would have made it
+easier to create the view. Next, the VisualAnimationView mostly worked with our model, but we
+realized that the tempo always remained the same. Additionally, we were not able to merge the
+provider’s HybridView with our own model. This was because the HybridView did not have any
+straightforward methods for pausing or restarting. We believe that this functionality is in the
+mouse and button listeners which were not given to us. We also believe the both the visual and
+hybrid views did not work completely before they were given to us.
+
+Documentation Critique
+Comments used to explain methods and class were straightforward and detailed in most of the
+provider’s files. However, I would suggest placing comments for methods of the interfaces and
+their implementing classes. This would make it easier to understand a method quickly instead of
+having to find it in the interface. Also, the provider’s README file was clear and how each view
+worked was detailed. It would have been better if the README also explained or was more detailed
+about the purpose of files such as the Controller, AnimationPanel, and ShapeVisitor. Without these
+explanations, it was difficult to understand the exact functionality of the Controller in
+the project.
+
+Design/Code Limitations
+Going through the provider’s code, we feel that the design allows for a lot of extension. For
+instance, adding more views or shape types could be done by extending a new class from the
+corresponding interface. Also because of the view’s abstract class, different views can share
+functionality allowing for little to no duplication.

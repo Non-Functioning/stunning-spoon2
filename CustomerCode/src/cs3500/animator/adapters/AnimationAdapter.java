@@ -5,38 +5,11 @@ import cs3500.animator.model.IAnimations;
 import cs3500.animator.provider.hw5.animations.IAnimation;
 import cs3500.animator.provider.hw5.shapes.IShape;
 
-import static cs3500.animator.model.enums.AnimateTypes.CHANGESIZE;
-import static cs3500.animator.model.enums.AnimateTypes.MOVE;
-
 public class AnimationAdapter extends Animations implements IAnimation {
   private IAnimations animations;
 
   AnimationAdapter(IAnimations iAnimations) {
     this.animations = iAnimations;
-    /*switch (animations.getAnimateType()) {
-      case MOVE:
-        this.animations = new MoveShape(animations.getChangedShape(), animations.getPosition1(),
-                animations.getPosition2(), animations.getTime1(), animations.getTime2());
-        break;
-      case APPEAR:
-        this.animations = new ShapeAppears(animations.getChangedShape(), animations.getTime1());
-        break;
-      case DISAPPEAR:
-        this.animations = new ShapeDisappears(animations.getChangedShape(), animations.getTime1());
-        break;
-      case STILL:
-        this.animations = new StillShape(animations.getChangedShape(), animations.getTime1());
-        break;
-      case CHANGESIZE:
-        this.animations = new ChangeShapeSize(animations.getChangedShape(),
-                animations.getSizeParams1(), animations.getSizeParams2(), animations.getTime1(),
-                animations.getTime2());
-        break;
-      case CHANGECOLOR:
-        this.animations = new ChangeShapeColor(animations.getChangedShape(),
-                animations.getColor1(), animations.getColor2(), animations.getTime1(),
-                animations.getTime2());
-    }*/
   }
 
   /**
@@ -48,78 +21,6 @@ public class AnimationAdapter extends Animations implements IAnimation {
    */
   @Override
   public IShape shapeAtTime(int t, IShape curShape) {
-    /*ShapeType shapeType;
-    InterfaceRGB color = curShape.getRGB();
-    IPosition2D pos = curShape.getPos();
-    List<Double> size = new ArrayList<>();
-    size.add(curShape.getHeight());
-    size.add(curShape.getWidth());
-
-    //int i = 0;
-    //IAnimation a = curShape.getAnimations().get(i);
-    //while (a.getStartTime() <= t) {
-      switch (animations.getAnimateType()) {
-        case MOVE:
-          if (animations.getTime2() > t) {
-            double x = calcTweening(pos.getX(), animations.getPosition2().getX(), getStartTime(),
-                    getEndTime(), t);
-            double y = calcTweening(pos.getY(), animations.getPosition2().getY(), getStartTime(),
-                    getEndTime(), t);
-            pos = new Position2D(x, y);
-          }
-          else {
-            pos = animations.getPosition2();
-          }
-          break;
-        case CHANGESIZE:
-          if (animations.getTime2() > t) {
-            for (int j = 0; j < size.size(); j++) {
-              double s = calcTweening(size.get(j), animations.getSizeParams2().get(j),
-                      getStartTime(), getEndTime(), t);
-              size.remove(j);
-              size.add(j, s);
-            }
-          }
-          else {
-            size = animations.getSizeParams2();
-          }
-          break;
-        case CHANGECOLOR:
-          if (animations.getTime2() > t) {
-            double r = calcTweening(color.getRed(), animations.getColor2().getRed(), getStartTime(),
-                    getEndTime(), t);
-            double g = calcTweening(color.getGreen(), animations.getColor2().getGreen(),
-                    getStartTime(), getEndTime(), t);
-            double b = calcTweening(color.getBlue(), animations.getColor2().getBlue(),
-                    getStartTime(), getEndTime(), t);
-            color = new RGBAdapter(r, g, b);
-          }
-          else {
-            color = new RGBAdapter(animations.getColor2().getRed(),
-                    animations.getColor2().getGreen(), animations.getColor2().getBlue());
-          }
-          break;
-        default:
-          throw new IllegalArgumentException("Invalid animation type");
-      }
-      //i++;
-      //a = curShape.getAnimations().get(i);
-    //}
-
-    switch (curShape.getAnimateType()) {
-      case "rectangle":
-        shapeType = ShapeType.RECTANGLE;
-        break;
-      case "oval":
-        shapeType = ShapeType.OVAL;
-        break;
-      default:
-        throw new IllegalArgumentException("Invalid shape type");
-    }
-
-    IShape shape = new ShapeAdapter(curShape.getName(), shapeType, color, pos, size,
-            getStartTime(), getEndTime());
-    return shape;*/
     return null;
   }
 
@@ -183,10 +84,8 @@ public class AnimationAdapter extends Animations implements IAnimation {
     switch (animations.getAnimateType()) {
       case MOVE:
         return "move";
-
       case CHANGESIZE:
         return "scale";
-
       default:
         return "";
     }
@@ -197,10 +96,8 @@ public class AnimationAdapter extends Animations implements IAnimation {
     switch (animations.getAnimateType()) {
       case MOVE:
         return animations.getPosition1().getX().toString();
-
       case CHANGESIZE:
         return animations.getSizeParams1().get(0).toString();
-
       default:
         return "";
     }
@@ -211,10 +108,8 @@ public class AnimationAdapter extends Animations implements IAnimation {
     switch (animations.getAnimateType()) {
       case MOVE:
         return animations.getPosition2().getX().toString();
-
       case CHANGESIZE:
         return animations.getSizeParams2().get(0).toString();
-
       default:
         return "";
     }
@@ -225,10 +120,8 @@ public class AnimationAdapter extends Animations implements IAnimation {
     switch (animations.getAnimateType()) {
       case MOVE:
         return animations.getPosition1().getY().toString();
-
       case CHANGESIZE:
         return animations.getSizeParams1().get(1).toString();
-
       default:
         return "";
     }
@@ -239,33 +132,10 @@ public class AnimationAdapter extends Animations implements IAnimation {
     switch (animations.getAnimateType()) {
       case MOVE:
         return animations.getPosition2().getY().toString();
-
       case CHANGESIZE:
         return animations.getSizeParams2().get(1).toString();
-
       default:
         return "";
     }
-  }
-
-  /**
-   * This method calculates the tweening value of an animation at a given time.
-   * This method is used for move, change color, and change size animations.
-   *
-   * @param initVal   initial value
-   * @param finalVal  final value
-   * @param initTick  time of initial value
-   * @param finalTick time of final value
-   * @param tick      current time
-   * @return value at current time
-   */
-  private Double calcTweening(Double initVal, Double finalVal, Integer initTick,
-                              Integer finalTick, Integer tick) {
-    Integer t1 = (finalTick - tick);
-    Integer t2 = (tick - initTick);
-    Integer t3 = (finalTick - initTick);
-    Double v1 = t1.doubleValue() / t3.doubleValue();
-    Double v2 = t2.doubleValue() / t3.doubleValue();
-    return (initVal * v1) + (finalVal * v2);
   }
 }
